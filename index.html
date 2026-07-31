@@ -1,0 +1,1476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DB Landscaping — Lawn care &amp; hardscaping in Southern Maryland</title>
+<meta name="description" content="DB Landscaping. Mowing, cleanups, mulch, aeration and hardscaping in St. Mary's, Calvert and Charles County, Maryland. Call 240-496-0769.">
+<meta name="theme-color" content="#17302A">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2317302A'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='17' font-weight='700' text-anchor='middle' fill='%23C9962C'%3EDB%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Public+Sans:wght@400;500;600;700&family=Zilla+Slab:wght@600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   DB Landscaping — single file. All CSS + JS inline.
+   No build step, no storage, no backend. Runs from file:///
+   ============================================================ */
+
+:root{
+  --shell:#E6E3D9;
+  --shell-lift:#F0EEE7;
+  --pine:#17302A;
+  --pine-deep:#0E1F1B;
+  --sage:#7D9276;
+  --gold:#C9962C;
+  --gold-soft:#E4C377;
+
+  /* derived, all mixed from the tokens above */
+  --rule:rgba(23,48,42,.16);
+  --rule-2:rgba(23,48,42,.30);
+  --rule-light:rgba(230,227,217,.22);
+  --sage-deep:#6B8266;
+  --shell-shade:#D8D4C6;
+
+  --mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --slab:'Zilla Slab',Georgia,'Times New Roman',serif;
+  --sans:'Public Sans',system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;
+
+  --wrap:1180px;
+  --hdr:70px;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:var(--shell);
+  color:var(--pine);
+  font-family:var(--sans);
+  font-size:clamp(16px,.95rem + .15vw,17.5px);
+  line-height:1.6;
+  overflow-x:hidden;
+}
+img,svg{max-width:100%}
+h1,h2,h3,h4{font-family:var(--slab);font-weight:700;line-height:1.04;margin:0;letter-spacing:-.01em}
+p{margin:0}
+a{color:inherit}
+ul{margin:0;padding:0;list-style:none}
+
+.defs{position:absolute;width:0;height:0;overflow:hidden}
+.wrap{max-width:var(--wrap);margin-inline:auto;padding-inline:clamp(18px,4vw,40px)}
+.sect{padding-block:clamp(62px,8vw,116px)}
+.vh{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+/* --- focus: visible on every interactive element --- */
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,[tabindex]:focus-visible{
+  outline:3px solid var(--gold);
+  outline-offset:3px;
+  border-radius:2px;
+}
+.band a:focus-visible,.band button:focus-visible,.stage button:focus-visible{outline-color:var(--gold-soft)}
+
+.skip{position:absolute;left:-9999px;top:0;z-index:200;background:var(--gold);color:var(--pine);font-family:var(--mono);font-size:.78rem;padding:.7rem 1rem;border:2px solid var(--pine)}
+.skip:focus{left:8px;top:8px}
+
+/* ---------- shared type ---------- */
+.eyebrow{
+  font-family:var(--mono);
+  font-size:.72rem;
+  font-weight:500;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:rgba(23,48,42,.62);
+  margin:0;
+}
+.eyebrow .n{color:var(--gold);}
+.band .eyebrow{color:rgba(230,227,217,.66)}
+.mono{font-family:var(--mono);font-size:.76rem;letter-spacing:.06em}
+
+.sect-head{max-width:56ch}
+.sect-head h2{font-size:clamp(2rem,1.15rem + 3.4vw,3.5rem);margin:.5rem 0 0}
+.sect-head .lede{margin-top:1.1rem;font-size:1.06rem;color:rgba(23,48,42,.78);max-width:52ch}
+.band .sect-head .lede{color:rgba(230,227,217,.76)}
+.sage{color:var(--sage)}
+.gold{color:var(--gold)}
+
+/* ---------- buttons: 2px border, 2px radius, hard gold offset on hover ---------- */
+.btn{
+  display:inline-flex;align-items:center;gap:.5rem;
+  font-family:var(--sans);font-weight:700;font-size:.95rem;
+  padding:.82rem 1.2rem;
+  border:2px solid var(--pine);border-radius:2px;
+  background:var(--shell-lift);color:var(--pine);
+  text-decoration:none;cursor:pointer;
+  transition:transform .12s ease,box-shadow .12s ease,background-color .12s ease;
+}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--gold)}
+.btn:active{transform:translate(0,0);box-shadow:2px 2px 0 var(--gold)}
+.btn svg{flex:0 0 auto}
+.btn--gold{background:var(--gold);border-color:var(--pine)}
+/* gold-on-gold shadow would be invisible, so the filled button throws pine */
+.btn--gold:hover{box-shadow:5px 5px 0 var(--pine)}
+.btn--ghost{background:transparent}
+.band .btn{background:transparent;color:var(--shell);border-color:var(--shell)}
+.band .btn:hover{box-shadow:5px 5px 0 var(--gold)}
+.band .btn--gold{background:var(--gold);color:var(--pine);border-color:var(--gold)}
+.band .btn--gold:hover{box-shadow:5px 5px 0 var(--shell)}
+
+/* ---------- mow stripes: the motif ---------- */
+.mow{
+  background-image:repeating-linear-gradient(115deg,
+    var(--mow-a,var(--sage)) 0 13px,
+    var(--mow-b,var(--sage-deep)) 13px 26px);
+}
+
+/* ---------- header ---------- */
+.hdr{
+  position:sticky;top:0;z-index:80;
+  background:rgba(230,227,217,.94);
+  backdrop-filter:blur(8px);
+  border-bottom:2px solid var(--pine);
+}
+.hdr-in{
+  height:var(--hdr);
+  display:flex;align-items:center;gap:clamp(10px,2vw,26px);
+}
+.mark{display:flex;align-items:center;gap:.6rem;text-decoration:none;flex:0 0 auto}
+.mark-tile{
+  width:40px;height:40px;flex:0 0 auto;
+  background:var(--pine);color:var(--gold);
+  display:grid;place-items:center;
+  font-family:var(--slab);font-weight:700;font-size:1.12rem;letter-spacing:.02em;
+  border-radius:2px;
+}
+.mark-txt{display:flex;flex-direction:column;line-height:1.05}
+.mark-txt b{font-family:var(--slab);font-weight:700;font-size:1.02rem;letter-spacing:-.01em}
+.mark-txt span{font-family:var(--mono);font-size:.6rem;letter-spacing:.15em;color:rgba(23,48,42,.6);text-transform:uppercase}
+
+.nav{margin-left:auto;display:flex;align-items:center;gap:clamp(12px,1.8vw,26px)}
+.nav a{
+  font-family:var(--mono);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;
+  text-decoration:none;color:rgba(23,48,42,.82);padding:.4rem 0;border-bottom:2px solid transparent;white-space:nowrap;
+}
+.nav a:hover{color:var(--pine);border-bottom-color:var(--gold)}
+.hdr-side{display:flex;align-items:center;gap:.5rem;flex:0 0 auto}
+.icon-link{
+  width:38px;height:38px;display:grid;place-items:center;
+  border:2px solid var(--pine);border-radius:2px;color:var(--pine);
+  transition:transform .12s ease,box-shadow .12s ease,background-color .12s ease;
+}
+.icon-link:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--gold);background:var(--shell-lift)}
+.call-btn{white-space:nowrap;padding:.7rem 1rem;font-size:.9rem}
+.navtoggle{
+  display:none;width:38px;height:38px;place-items:center;
+  border:2px solid var(--pine);border-radius:2px;background:var(--shell-lift);cursor:pointer;color:var(--pine);
+}
+
+@media (max-width:1000px){
+  .nav{
+    position:absolute;left:0;right:0;top:100%;
+    flex-direction:column;align-items:stretch;gap:0;
+    background:var(--shell-lift);border-bottom:2px solid var(--pine);
+    padding:.4rem clamp(18px,4vw,40px) 1rem;
+    display:none;
+  }
+  .hdr.open .nav{display:flex}
+  .nav a{padding:.85rem 0;border-bottom:1px solid var(--rule)}
+  .navtoggle{display:grid;order:3}
+  .hdr-side{margin-left:auto}
+  .icon-link{display:none}
+}
+@media (max-width:420px){
+  :root{--hdr:64px}
+  .mark-txt{display:none}
+  .call-btn{padding:.62rem .7rem;font-size:.85rem}
+}
+
+/* ---------- hero ---------- */
+.hero{padding-block:clamp(40px,5vw,78px) clamp(56px,7vw,104px);position:relative}
+.hero-in{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.02fr);gap:clamp(28px,4vw,58px);align-items:center}
+.hero h1{font-size:clamp(2.5rem,1.1rem + 5.4vw,4.6rem);margin:1.1rem 0 0}
+.hero h1 .l2{display:block}
+.hero-lede{margin-top:1.3rem;font-size:clamp(1.02rem,.98rem + .3vw,1.16rem);color:rgba(23,48,42,.8);max-width:46ch}
+.hero-cta{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1.8rem}
+.trust{
+  display:flex;flex-wrap:wrap;gap:.5rem 1.4rem;margin-top:2rem;
+  padding-top:1.1rem;border-top:2px solid var(--pine);
+}
+.trust li{
+  font-family:var(--mono);font-size:.72rem;letter-spacing:.11em;text-transform:uppercase;
+  color:rgba(23,48,42,.72);display:flex;align-items:center;gap:.5rem;
+}
+.trust li::before{content:"";width:7px;height:7px;background:var(--gold);flex:0 0 auto}
+.hero-art{border:2px solid var(--pine);border-radius:2px;overflow:hidden;background:var(--shell-lift);line-height:0}
+.hero-art svg,.hero-art img{display:block;width:100%;height:auto}
+@media (max-width:860px){
+  .hero-in{grid-template-columns:1fr}
+  .hero-art{order:-1}
+}
+
+/* ---------- 01 yard calendar ---------- */
+.band{background:var(--pine);color:var(--shell);position:relative;overflow:hidden}
+.band::before{
+  content:"";position:absolute;inset:0;opacity:.12;pointer-events:none;
+  background-image:repeating-linear-gradient(115deg,transparent 0 26px,rgba(230,227,217,.5) 26px 27px);
+}
+.band>*{position:relative}
+.cal-top{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(300px,.85fr);gap:clamp(24px,4vw,48px);align-items:end}
+.rightnow{
+  border:2px solid var(--gold);border-radius:2px;
+  background:rgba(230,227,217,.05);
+  padding:clamp(18px,2.2vw,26px);
+}
+.rightnow .rn-head{
+  font-family:var(--mono);font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--gold);display:flex;justify-content:space-between;gap:1rem;
+}
+.rightnow p.rn-text{margin-top:.85rem;font-size:1.04rem;line-height:1.5;color:var(--shell)}
+.rightnow .btn{margin-top:1.2rem}
+@media (max-width:860px){.cal-top{grid-template-columns:1fr}}
+
+.cal-scroll{margin-top:clamp(30px,4vw,52px);overflow-x:auto;overscroll-behavior-x:contain;padding-bottom:6px}
+.cal-chart{position:relative;min-width:964px;--lab:214px;padding-top:26px}
+.cal-grid{display:grid;grid-template-columns:var(--lab) repeat(12,minmax(0,1fr));align-items:stretch}
+.cal-h{
+  height:38px;display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;
+  color:rgba(230,227,217,.62);border-bottom:2px solid rgba(230,227,217,.28);
+}
+.cal-h.is-now{color:var(--pine);background:var(--gold);font-weight:500;border-bottom-color:var(--gold)}
+.cal-corner{
+  height:38px;display:flex;align-items:center;
+  font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(230,227,217,.45);border-bottom:2px solid rgba(230,227,217,.28);
+}
+.cal-name{
+  display:flex;align-items:center;height:54px;padding-right:16px;
+  font-weight:600;font-size:.96rem;color:var(--shell);
+  border-bottom:1px solid rgba(230,227,217,.14);
+}
+.cal-track{
+  grid-column:2 / -1;height:54px;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));
+  border-bottom:1px solid rgba(230,227,217,.14);
+  background-image:repeating-linear-gradient(90deg,rgba(230,227,217,.14) 0 1px,transparent 1px 100%);
+  background-size:calc(100% / 12) 100%;
+}
+.cal-bar{
+  align-self:center;height:26px;border:1px solid rgba(14,31,27,.55);border-radius:2px;
+  display:flex;align-items:center;padding-inline:10px;margin-inline:3px;
+  --mow-a:#8CA085;--mow-b:var(--sage);
+  overflow:hidden;
+}
+.cal-bar.is-active{--mow-a:var(--gold);--mow-b:var(--gold-soft);border-color:var(--pine-deep)}
+.cal-bar span{
+  font-family:var(--mono);font-size:.64rem;letter-spacing:.1em;
+  color:var(--pine-deep);white-space:nowrap;
+  background:rgba(240,238,231,.82);padding:1px 5px;border-radius:2px;
+}
+.cal-marker{position:absolute;top:26px;bottom:0;width:2px;background:var(--gold);transform:translateX(-1px);pointer-events:none;z-index:3}
+.cal-marker::before{
+  content:attr(data-label);position:absolute;top:-26px;left:50%;transform:translateX(-50%);
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;white-space:nowrap;
+  background:var(--gold);color:var(--pine);padding:2px 7px;border-radius:2px;
+}
+.cal-foot{
+  display:flex;flex-wrap:wrap;gap:.6rem 1.6rem;margin-top:1.3rem;
+  font-family:var(--mono);font-size:.7rem;letter-spacing:.09em;text-transform:uppercase;color:rgba(230,227,217,.6);
+}
+.key{display:flex;align-items:center;gap:.5rem}
+.key i{width:22px;height:11px;display:block;border:1px solid rgba(14,31,27,.5);border-radius:2px;--mow-a:#8CA085;--mow-b:var(--sage)}
+.key i.g{--mow-a:var(--gold);--mow-b:var(--gold-soft)}
+
+/* ---------- 02 services ---------- */
+.svc-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:clamp(14px,1.6vw,20px);margin-top:clamp(34px,4vw,54px)}
+.card{
+  border:2px solid var(--pine);border-radius:2px;background:var(--shell-lift);
+  padding:clamp(20px,2.2vw,30px);display:flex;flex-direction:column;gap:.8rem;
+  transition:transform .14s ease,box-shadow .14s ease;
+}
+.card:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--gold)}
+.card .tag{
+  font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--pine);background:var(--shell);border:1px solid var(--rule-2);border-radius:2px;
+  padding:.22rem .5rem;align-self:flex-start;
+}
+.card h3{font-size:1.42rem}
+.card p{color:rgba(23,48,42,.78);font-size:.97rem}
+.card .ic{color:var(--pine)}
+.card--w4{grid-column:span 4}
+.card--w2{grid-column:span 2}
+.card--w6{grid-column:span 6}
+.card--w6 .row6{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:clamp(16px,3vw,44px);align-items:start}
+.sub{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.4rem .9rem;margin-top:.3rem}
+.sub li{
+  display:flex;gap:.55rem;align-items:baseline;font-size:.93rem;color:rgba(23,48,42,.8);
+  padding-block:.28rem;border-top:1px solid var(--rule);
+}
+.sub li::before{content:"—";color:var(--gold);font-weight:700}
+@media (max-width:900px){
+  .svc-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .card--w4,.card--w2,.card--w6{grid-column:span 2}
+  .card--w6 .row6{grid-template-columns:1fr}
+}
+@media (max-width:600px){
+  .svc-grid{grid-template-columns:1fr}
+  .card--w4,.card--w2,.card--w6{grid-column:span 1}
+  .sub{grid-template-columns:1fr}
+}
+
+/* ---------- 03 transformation sequence ---------- */
+.reno{background:var(--pine-deep);color:var(--shell)}
+.reno-head{padding-block:clamp(56px,7vw,100px) clamp(28px,3vw,44px)}
+.reno-head .eyebrow{color:rgba(230,227,217,.66)}
+.reno-head .lede{color:rgba(230,227,217,.76)}
+.runway{position:relative;height:600vh}
+.stage{
+  position:sticky;top:var(--hdr);height:calc(100vh - var(--hdr));min-height:480px;
+  overflow:hidden;background:var(--pine-deep);border-block:2px solid var(--pine);
+}
+.frames{position:absolute;inset:0}
+.frame{position:absolute;inset:0;margin:0;opacity:0;z-index:0}
+.frame.is-under{opacity:1;z-index:1;transition:none}
+.frame.is-on{opacity:1;z-index:2;transition:opacity .55s ease}
+.frame-art{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.cap{
+  position:absolute;left:clamp(16px,4vw,54px);right:clamp(16px,4vw,54px);bottom:calc(var(--rail-h) + clamp(18px,3vw,34px));
+  z-index:3;max-width:520px;
+  background:rgba(14,31,27,.9);border:2px solid var(--gold);border-radius:2px;
+  padding:clamp(14px,1.7vw,20px) clamp(16px,2vw,24px);
+}
+.cap b{display:block;font-family:var(--slab);font-weight:700;font-size:clamp(1.3rem,1rem + 1.2vw,1.9rem);line-height:1.06}
+.cap i{
+  font-style:normal;display:block;font-family:var(--mono);font-size:.66rem;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--gold);margin-bottom:.4rem;
+}
+.cap span{display:block;margin-top:.45rem;color:rgba(230,227,217,.84);font-size:.98rem;line-height:1.45}
+.rail{
+  --rail-h:74px;
+  position:absolute;left:0;right:0;bottom:0;z-index:4;
+  display:grid;grid-template-columns:repeat(6,minmax(0,1fr));
+  background:rgba(14,31,27,.92);border-top:2px solid rgba(230,227,217,.3);
+}
+.stage{--rail-h:74px}
+.seg{
+  position:relative;overflow:hidden;
+  appearance:none;background:transparent;border:0;border-left:1px solid rgba(230,227,217,.22);
+  color:var(--shell);text-align:left;cursor:pointer;font-family:var(--mono);
+  padding:.85rem .9rem;height:74px;display:flex;flex-direction:column;justify-content:center;gap:.25rem;
+}
+.seg:first-child{border-left:0}
+.seg-fill{position:absolute;left:0;top:0;bottom:0;width:0;background:rgba(201,150,44,.26);border-right:2px solid var(--gold);pointer-events:none}
+.seg-n{position:relative;font-size:.66rem;letter-spacing:.16em;color:var(--gold)}
+.seg-l{position:relative;font-size:.74rem;letter-spacing:.06em;color:rgba(230,227,217,.9);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.seg[aria-current="true"] .seg-l{color:#fff}
+.seg:hover{background:rgba(230,227,217,.07)}
+@media (max-width:700px){
+  .rail,.stage{--rail-h:56px}
+  .seg{height:56px;padding:.5rem .4rem;align-items:center;justify-content:center}
+  .seg-l{display:none}
+  .seg-n{font-size:.72rem}
+}
+
+/* ---------- 04 recent jobs ---------- */
+.jobs-head{display:flex;flex-wrap:wrap;gap:1.4rem;align-items:flex-end;justify-content:space-between}
+.job-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(12px,1.4vw,18px);margin-top:clamp(30px,4vw,48px)}
+.job{
+  position:relative;display:block;aspect-ratio:1/1;overflow:hidden;line-height:0;
+  border:2px solid var(--pine);border-radius:2px;background:var(--shell-lift);
+  transition:transform .14s ease,box-shadow .14s ease;
+}
+.job:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--gold)}
+.job .frame-art{position:absolute;inset:0}
+.job b{
+  position:absolute;left:0;bottom:0;z-index:2;
+  font-family:var(--mono);font-weight:400;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;
+  background:var(--pine);color:var(--shell);padding:.4rem .6rem;line-height:1.2;
+}
+@media (max-width:700px){.job-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* ---------- 05 service area ---------- */
+.area-in{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.92fr);gap:clamp(28px,4vw,56px);align-items:start;margin-top:clamp(28px,3vw,44px)}
+.chips{display:flex;flex-wrap:wrap;gap:.45rem}
+.chips li{
+  font-family:var(--mono);font-size:.72rem;letter-spacing:.07em;
+  border:1px solid var(--rule-2);border-radius:2px;background:var(--shell-lift);
+  padding:.36rem .6rem;
+}
+.county{margin-top:1.5rem}
+.county:first-child{margin-top:0}
+.county h3{font-size:1.05rem;font-family:var(--mono);font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.6rem}
+.map-box{border:2px solid var(--pine);border-radius:2px;background:var(--shell-lift);padding:clamp(10px,1.4vw,18px);line-height:0}
+.proof{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(14px,2vw,26px);margin-top:clamp(34px,4vw,54px);border-top:2px solid var(--pine);padding-top:clamp(20px,2.4vw,32px)}
+.proof li b{display:block;font-family:var(--slab);font-size:1.24rem;line-height:1.1;margin-bottom:.4rem}
+.proof li .n{font-family:var(--mono);font-size:.68rem;letter-spacing:.16em;color:var(--gold);display:block;margin-bottom:.6rem}
+.proof li p{font-size:.95rem;color:rgba(23,48,42,.78)}
+@media (max-width:860px){.area-in{grid-template-columns:1fr}.proof{grid-template-columns:1fr;gap:1.6rem}}
+
+/* ---------- 06 testimonials ---------- */
+.quotes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(16px,2vw,28px);margin-top:clamp(30px,4vw,48px)}
+.quote{border-top:3px solid var(--gold);padding-top:1.2rem}
+.quote blockquote{margin:0;font-family:var(--slab);font-weight:600;font-size:1.16rem;line-height:1.34}
+.quote figcaption{margin-top:.9rem;font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;color:rgba(23,48,42,.62);text-transform:uppercase}
+.placeholder{color:rgba(23,48,42,.5)}
+@media (max-width:820px){.quotes{grid-template-columns:1fr}}
+
+/* ---------- 07 estimate ---------- */
+.est-in{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:clamp(30px,4vw,64px);align-items:start;margin-top:clamp(28px,3vw,44px)}
+.steps li{display:grid;grid-template-columns:auto 1fr;gap:1rem;padding-block:1.1rem;border-top:1px solid rgba(230,227,217,.22)}
+.steps li:last-child{border-bottom:1px solid rgba(230,227,217,.22)}
+.steps .num{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;color:var(--gold);padding-top:.25rem}
+.steps b{display:block;font-family:var(--slab);font-size:1.2rem;line-height:1.15}
+.steps p{color:rgba(230,227,217,.76);font-size:.96rem;margin-top:.3rem}
+.bigphone{display:inline-block;margin-top:1.8rem;font-family:var(--slab);font-weight:700;color:var(--gold);
+  font-size:clamp(2rem,1.1rem + 3.2vw,3.1rem);line-height:1;text-decoration:none;border-bottom:3px solid transparent}
+.bigphone:hover{border-bottom-color:var(--gold)}
+.estmail{display:inline-block;margin-top:.7rem;font-family:var(--mono);font-size:.85rem;letter-spacing:.04em;color:rgba(230,227,217,.85);word-break:break-all}
+
+.form{background:var(--shell-lift);border:2px solid var(--gold);border-radius:2px;padding:clamp(20px,2.6vw,34px);color:var(--pine)}
+.form h3{font-size:1.5rem}
+.form .hint{font-size:.9rem;color:rgba(23,48,42,.7);margin-top:.4rem}
+.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;margin-top:1.4rem}
+.field{display:flex;flex-direction:column;gap:.35rem}
+.field.full{grid-column:span 2}
+.field label{font-family:var(--mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(23,48,42,.75)}
+.field label .req{color:var(--gold)}
+.field input,.field select,.field textarea{
+  font-family:var(--sans);font-size:1rem;color:var(--pine);
+  background:var(--shell);border:2px solid var(--pine);border-radius:2px;padding:.7rem .8rem;width:100%;
+}
+.field textarea{resize:vertical;min-height:104px}
+.field select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--pine) 50%),linear-gradient(135deg,var(--pine) 50%,transparent 50%);
+  background-position:calc(100% - 19px) 55%,calc(100% - 13px) 55%;background-size:6px 6px,6px 6px;background-repeat:no-repeat;padding-right:2.2rem}
+.field .err{font-family:var(--mono);font-size:.68rem;letter-spacing:.06em;color:#8E2F16;min-height:1em}
+.field [aria-invalid="true"]{border-color:#8E2F16;background:#F6E9E4}
+.form .btn{margin-top:1.3rem;width:100%;justify-content:center}
+.sent{
+  margin-top:1rem;border:2px solid var(--pine);border-left-width:6px;border-radius:2px;
+  background:var(--shell);padding:.9rem 1rem;font-size:.93rem;
+}
+.sent[hidden]{display:none}
+.sent b{font-family:var(--slab);display:block;margin-bottom:.25rem}
+@media (max-width:860px){.est-in{grid-template-columns:1fr}}
+@media (max-width:560px){.fields{grid-template-columns:1fr}.field.full{grid-column:span 1}}
+
+/* ---------- footer ---------- */
+.foot{background:var(--pine-deep);color:var(--shell);padding-block:clamp(34px,4vw,56px);border-top:2px solid rgba(230,227,217,.2)}
+.foot-in{display:flex;flex-wrap:wrap;gap:1.6rem 2.4rem;align-items:center;justify-content:space-between}
+.foot .icon-link{border-color:rgba(230,227,217,.55);color:var(--shell)}
+.foot .icon-link:hover{background:transparent;box-shadow:5px 5px 0 var(--gold)}
+.foot a.line{font-family:var(--mono);font-size:.8rem;letter-spacing:.05em;color:rgba(230,227,217,.9);text-decoration:none;display:block}
+.foot a.line:hover{color:var(--gold)}
+.foot .fine{width:100%;border-top:1px solid rgba(230,227,217,.18);padding-top:1.2rem;margin-top:.4rem;
+  font-family:var(--mono);font-size:.66rem;letter-spacing:.09em;color:rgba(230,227,217,.5);text-transform:uppercase}
+
+/* ---------- reduced motion: unpin, stack, keep everything usable ---------- */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+  .runway{height:auto}
+  .stage{position:relative;top:0;height:auto;aspect-ratio:16/10;min-height:400px}
+  .btn:hover,.card:hover,.job:hover,.icon-link:hover{transform:none}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- Shared SVG defs: gradients, patterns and the pine/fence symbols reused by every scene below. -->
+<svg class="defs" aria-hidden="true" focusable="false" width="0" height="0"><defs>
+  <linearGradient id="skyDay" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#F0EEE7"/><stop offset=".62" stop-color="#EAE6DA"/><stop offset="1" stop-color="#E4C377"/>
+  </linearGradient>
+  <linearGradient id="skyDusk" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#23343B"/><stop offset=".45" stop-color="#6B5A55"/>
+    <stop offset=".78" stop-color="#C9962C"/><stop offset="1" stop-color="#E4C377"/>
+  </linearGradient>
+  <linearGradient id="lawnDepth" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#17302A" stop-opacity=".38"/><stop offset="1" stop-color="#17302A" stop-opacity="0"/>
+  </linearGradient>
+  <linearGradient id="dirtGrad" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#5E4E3D"/><stop offset="1" stop-color="#7E6C55"/>
+  </linearGradient>
+  <radialGradient id="glowWarm" cx=".5" cy=".5" r=".5">
+    <stop offset="0" stop-color="#E4C377" stop-opacity=".85"/><stop offset="1" stop-color="#E4C377" stop-opacity="0"/>
+  </radialGradient>
+  <pattern id="shellSpeck" width="26" height="18" patternUnits="userSpaceOnUse">
+    <ellipse cx="5" cy="5" rx="2.6" ry="1.7" fill="#F0EEE7"/>
+    <ellipse cx="17" cy="12" rx="2.2" ry="1.5" fill="#FFFDF6"/>
+    <ellipse cx="22" cy="3" rx="1.6" ry="1.1" fill="#C7C1AF"/>
+    <ellipse cx="9" cy="14" rx="1.5" ry="1" fill="#C7C1AF"/>
+  </pattern>
+  <pattern id="dirtTex" width="22" height="16" patternUnits="userSpaceOnUse">
+    <rect width="22" height="16" fill="none"/>
+    <ellipse cx="6" cy="5" rx="2.4" ry="1.4" fill="#4E4032" opacity=".45"/>
+    <ellipse cx="16" cy="11" rx="2" ry="1.2" fill="#96835F" opacity=".4"/>
+    <ellipse cx="19" cy="3" rx="1.3" ry=".9" fill="#4E4032" opacity=".35"/>
+  </pattern>
+  <pattern id="mulchTex" width="20" height="14" patternUnits="userSpaceOnUse">
+    <rect width="20" height="14" fill="#4A382A"/>
+    <rect x="2" y="3" width="7" height="2" rx="1" fill="#5C4633"/>
+    <rect x="11" y="8" width="6" height="2" rx="1" fill="#3B2C21"/>
+    <rect x="6" y="10" width="5" height="1.6" rx=".8" fill="#5C4633"/>
+  </pattern>
+
+  <symbol id="loblolly" viewBox="0 0 100 300">
+    <rect x="46" y="118" width="8" height="182" fill="currentColor" fill-opacity=".8"/>
+    <path d="M50 2 L72 62 L60 58 L80 108 L64 104 L88 152 L54 144 L54 170 L46 170 L46 144 L12 152 L36 104 L20 108 L40 58 L28 62 Z" fill="currentColor"/>
+  </symbol>
+  <symbol id="treeline" viewBox="0 0 1200 300">
+    <g color="#3C5347">
+      <use href="#loblolly" x="30" y="96" width="84" height="204"/>
+      <use href="#loblolly" x="186" y="112" width="76" height="188"/>
+      <use href="#loblolly" x="352" y="88" width="88" height="212"/>
+      <use href="#loblolly" x="530" y="118" width="72" height="182"/>
+      <use href="#loblolly" x="700" y="98" width="84" height="202"/>
+      <use href="#loblolly" x="880" y="116" width="76" height="184"/>
+      <use href="#loblolly" x="1042" y="92" width="88" height="208"/>
+    </g>
+    <g color="#17302A">
+      <use href="#loblolly" x="-14" y="52" width="104" height="248"/>
+      <use href="#loblolly" x="112" y="30" width="116" height="270"/>
+      <use href="#loblolly" x="268" y="64" width="96" height="236"/>
+      <use href="#loblolly" x="430" y="26" width="120" height="274"/>
+      <use href="#loblolly" x="606" y="58" width="100" height="242"/>
+      <use href="#loblolly" x="772" y="34" width="114" height="266"/>
+      <use href="#loblolly" x="946" y="62" width="98" height="238"/>
+      <use href="#loblolly" x="1100" y="40" width="112" height="260"/>
+    </g>
+  </symbol>
+  <symbol id="fenceBack" viewBox="0 0 1200 90">
+    <rect width="1200" height="90" fill="#8A7A63"/>
+    <g fill="#7A6A55">
+      <rect x="14" y="0" width="26" height="90"/><rect x="72" y="0" width="26" height="90"/>
+      <rect x="130" y="0" width="26" height="90"/><rect x="188" y="0" width="26" height="90"/>
+      <rect x="246" y="0" width="26" height="90"/><rect x="304" y="0" width="26" height="90"/>
+      <rect x="362" y="0" width="26" height="90"/><rect x="420" y="0" width="26" height="90"/>
+      <rect x="478" y="0" width="26" height="90"/><rect x="536" y="0" width="26" height="90"/>
+      <rect x="594" y="0" width="26" height="90"/><rect x="652" y="0" width="26" height="90"/>
+      <rect x="710" y="0" width="26" height="90"/><rect x="768" y="0" width="26" height="90"/>
+      <rect x="826" y="0" width="26" height="90"/><rect x="884" y="0" width="26" height="90"/>
+      <rect x="942" y="0" width="26" height="90"/><rect x="1000" y="0" width="26" height="90"/>
+      <rect x="1058" y="0" width="26" height="90"/><rect x="1116" y="0" width="26" height="90"/>
+      <rect x="1174" y="0" width="26" height="90"/>
+    </g>
+    <rect y="0" width="1200" height="6" fill="#6B5C49"/>
+    <rect y="40" width="1200" height="7" fill="#6B5C49" opacity=".55"/>
+    <rect y="84" width="1200" height="6" fill="#5A4C3C"/>
+  </symbol>
+  <symbol id="shrub" viewBox="0 0 100 80">
+    <path d="M50 4c16 0 28 12 30 26 10 4 16 13 14 24-2 13-16 22-32 22H38C22 76 8 67 6 54 4 43 10 34 20 30 22 16 34 4 50 4z" fill="currentColor"/>
+    <path d="M50 12c-8 8-12 20-12 34 0 12 3 22 8 30h8c5-8 8-18 8-30 0-14-4-26-12-34z" fill="#0E1F1B" opacity=".1"/>
+  </symbol>
+</defs></svg>
+
+<header class="hdr" id="hdr">
+  <div class="wrap hdr-in">
+    <a class="mark" href="#top" aria-label="DB Landscaping, back to top">
+      <span class="mark-tile" aria-hidden="true">DB</span>
+      <span class="mark-txt"><b>DB Landscaping</b><span>Southern Maryland</span></span>
+    </a>
+
+    <nav class="nav" id="sitenav" aria-label="Main">
+      <a href="#calendar">Calendar</a>
+      <a href="#services">Services</a>
+      <a href="#work">Our work</a>
+      <a href="#jobs">Recent jobs</a>
+      <a href="#area">Service area</a>
+      <a href="#estimate">Get a price</a>
+    </nav>
+
+    <div class="hdr-side">
+      <a class="icon-link" href="https://www.instagram.com/dblandscaping19/" target="_blank" rel="noopener" aria-label="DB Landscaping on Instagram">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1.3" fill="currentColor" stroke="none"/></svg>
+      </a>
+      <a class="icon-link" href="https://www.facebook.com/dblandscaping19/" target="_blank" rel="noopener" aria-label="DB Landscaping on Facebook">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14.2 22v-8.4h2.9l.5-3.4h-3.4V8c0-1 .3-1.7 1.7-1.7h1.8V3.2A24 24 0 0 0 15 3c-2.7 0-4.5 1.6-4.5 4.6v2.6H7.6v3.4h2.9V22h3.7z"/></svg>
+      </a>
+      <a class="btn btn--gold call-btn" href="tel:+12404960769">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8a15.6 15.6 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.2.4 2.4.6 3.7.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.4c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.7.1.3 0 .7-.2 1l-2.2 2.1z"/></svg>
+        240-496-0769
+      </a>
+      <button class="navtoggle" id="navtoggle" type="button" aria-expanded="false" aria-controls="sitenav" aria-label="Open menu">
+        <svg width="18" height="18" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+<a id="top"></a>
+
+<!-- ============ HERO ============ -->
+<section class="hero wrap">
+  <div class="hero-in">
+    <div class="hero-copy">
+      <p class="eyebrow">St. Mary&rsquo;s &middot; Calvert &middot; Charles County, MD</p>
+      <h1>The person who prices your yard<span class="l2 sage">is the person who mows it.</span></h1>
+      <p class="hero-lede">DB Landscaping is a small Southern Maryland outfit. Mowing, cleanups, mulch, aeration and hardscaping &mdash; one flat price up front, the same truck in your driveway every week, and a phone that gets answered.</p>
+      <div class="hero-cta">
+        <a class="btn btn--gold" href="tel:+12404960769">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8a15.6 15.6 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.2.4 2.4.6 3.7.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.4c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.7.1.3 0 .7-.2 1l-2.2 2.1z"/></svg>
+          Call 240-496-0769
+        </a>
+        <!-- Real sms: link with a prefilled body. Opens the phone's messaging app. -->
+        <a class="btn" href="sms:+12404960769?&amp;body=Hi%20DB%20Landscaping%20%E2%80%94%20here%27s%20a%20photo%20of%20my%20yard.%20I%27m%20in%20%5Btown%5D%20and%20I%27d%20like%20a%20price%20on%3A%20">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 11.5A8.5 8.5 0 0 1 12.5 20H7l-4 3v-6.2A8.5 8.5 0 0 1 12.5 3 8.5 8.5 0 0 1 21 11.5z"/></svg>
+          Text a photo of your yard
+        </a>
+      </div>
+      <ul class="trust">
+        <!-- SWAP: CONFIRM — "Est. 2019" is inferred from the 19 in their handle. Ask the owner for the real start year. -->
+        <li>Est. 2019</li>
+        <!-- SWAP: CONFIRM — licensing and insurance status not verified. Get the policy/licence details before launch. Used once on the page, here. -->
+        <li>Licensed &amp; insured</li>
+        <li>Owner on every job</li>
+      </ul>
+    </div>
+
+    <!-- SWAP: PHOTO — hero scene. Replace this whole <svg> with <img src="hero.jpg" alt="..."> when the client's photo lands; the wrapper already sizes it. -->
+    <div class="hero-art">
+      <svg viewBox="0 0 760 620" role="img" aria-label="A striped mown lawn running toward a line of loblolly pines, with a crushed shell drive across the front.">
+        <rect width="760" height="302" fill="url(#skyDay)"/>
+        <use href="#treeline" x="0" y="112" width="760" height="190"/>
+        <g color="#2A4238"><use href="#shrub" x="20" y="268" width="76" height="40"/><use href="#shrub" x="120" y="274" width="62" height="32"/><use href="#shrub" x="600" y="270" width="70" height="36"/><use href="#shrub" x="678" y="276" width="66" height="30"/></g>
+        <clipPath id="lawnClip"><rect x="0" y="300" width="760" height="200"/></clipPath>
+        <g clip-path="url(#lawnClip)">
+          <rect x="0" y="298" width="760" height="204" fill="#6B8266"/>
+          <polygon points="150,300 188,300 -118,500 -218,500" fill="#7D9276"/>
+          <polygon points="188,300 227,300 -19,500 -118,500" fill="#6B8266"/>
+          <polygon points="227,300 265,300 81,500 -19,500" fill="#7D9276"/>
+          <polygon points="265,300 303,300 181,500 81,500" fill="#6B8266"/>
+          <polygon points="303,300 342,300 280,500 181,500" fill="#7D9276"/>
+          <polygon points="342,300 380,300 380,500 280,500" fill="#6B8266"/>
+          <polygon points="380,300 418,300 480,500 380,500" fill="#7D9276"/>
+          <polygon points="418,300 457,300 579,500 480,500" fill="#6B8266"/>
+          <polygon points="457,300 495,300 679,500 579,500" fill="#7D9276"/>
+          <polygon points="495,300 533,300 779,500 679,500" fill="#6B8266"/>
+          <polygon points="533,300 572,300 878,500 779,500" fill="#7D9276"/>
+          <polygon points="572,300 610,300 978,500 878,500" fill="#6B8266"/>
+          <rect x="0" y="300" width="760" height="200" fill="url(#lawnDepth)"/>
+        </g>
+        <rect x="0" y="298" width="760" height="4" fill="#17302A" opacity=".55"/>
+        <rect x="0" y="498" width="760" height="122" fill="#D8D4C6"/>
+        <rect x="0" y="498" width="760" height="122" fill="url(#shellSpeck)" opacity=".9"/>
+        <rect x="0" y="498" width="760" height="5" fill="#B9B2A0"/>
+        <path d="M0 560 C 210 548 520 572 760 556" stroke="#B9B2A0" stroke-width="3" fill="none" opacity=".7"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 01 SIGNATURE: THE YARD CALENDAR ============ -->
+<section class="sect band" id="calendar">
+  <div class="wrap">
+    <div class="cal-top">
+      <div class="sect-head">
+        <p class="eyebrow"><span class="n">01</span> / The yard calendar</p>
+        <h2>Should you be calling <span class="gold">right now?</span></h2>
+        <p class="lede">Yard work runs on a calendar, not a whim. Here is what actually happens month by month in Southern Maryland &mdash; and where today lands on it.</p>
+      </div>
+
+      <div class="rightnow">
+        <p class="rn-head"><span>Right now</span><span id="rnMonth">&mdash;</span></p>
+        <p class="rn-text" id="rnText">Pick up the phone and we&rsquo;ll tell you what your yard needs this month.</p>
+        <a class="btn btn--gold" href="tel:+12404960769">Call about this month</a>
+      </div>
+    </div>
+
+    <div class="cal-scroll">
+      <div class="cal-chart" id="calChart">
+        <div class="cal-grid" id="calGrid"></div>
+      </div>
+    </div>
+
+    <noscript>
+      <p style="margin-top:1.4rem;font-family:var(--mono);font-size:.8rem">Spring cleanup Mar&ndash;Apr &middot; Mowing &amp; trimming Apr&ndash;Oct &middot; Mulch &amp; bed edging Mar&ndash;Jun &middot; Fertilize &amp; weed Apr&ndash;Sep &middot; Aeration &amp; overseed Sep&ndash;Oct &middot; Leaf removal Oct&ndash;Dec &middot; Hardscaping year-round.</p>
+    </noscript>
+
+    <ul class="cal-foot">
+      <li class="key"><i class="mow" aria-hidden="true"></i> Scheduled</li>
+      <li class="key"><i class="mow g" aria-hidden="true"></i> Running this month</li>
+      <li>Drag the chart sideways on a phone</li>
+    </ul>
+    <ul class="vh" id="calText"></ul>
+  </div>
+</section>
+
+<!-- ============ 02 SERVICES ============ -->
+<!-- SWAP: CONFIRM — service list is our best guess from their feed. Confirm what they do and don't take on
+     (irrigation? tree work? snow? commercial contracts?) before this goes live. -->
+<section class="sect" id="services">
+  <div class="wrap">
+    <div class="sect-head">
+      <p class="eyebrow"><span class="n">02</span> / Services</p>
+      <h2>What we do, and <span class="sage">when we do it</span></h2>
+      <p class="lede">Weekly maintenance keeps a yard from getting away from you. The rest is timed to the season &mdash; do it in the right month and it works, do it in the wrong one and you pay twice.</p>
+    </div>
+
+    <div class="svc-grid">
+      <article class="card card--w4">
+        <svg class="ic" width="34" height="34" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M4 30h20l4-8h8"/><circle cx="9" cy="32" r="4"/><circle cx="30" cy="32" r="3"/><path d="M28 22V10"/><path d="M4 30V20"/></svg>
+        <span class="tag">Apr&ndash;Oct &middot; Weekly</span>
+        <h3>Lawn maintenance</h3>
+        <p>Same day every week, same crew. We cut at the right height for the season instead of scalping it in July, and everything gets blown off before we leave.</p>
+        <ul class="sub">
+          <li>Mow, stripe and blow off</li>
+          <li>String trim and hard edge</li>
+          <li>Beds weeded on the same visit</li>
+          <li>Fertilizer and weed control rounds</li>
+        </ul>
+      </article>
+
+      <article class="card card--w2">
+        <svg class="ic" width="34" height="34" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M34 6C18 6 8 14 8 26c0 3 1 6 2 8"/><path d="M6 36c4-14 14-22 28-30"/><path d="M20 30c8 0 14-6 14-14"/></svg>
+        <span class="tag">Mar&ndash;Apr / Oct&ndash;Dec</span>
+        <h3>Spring &amp; fall cleanups</h3>
+        <p>Beds cut back, winter debris and leaves hauled off the property, gutters of the yard cleared out. The reset that makes everything else easier.</p>
+      </article>
+
+      <article class="card card--w2">
+        <svg class="ic" width="34" height="34" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M4 28c6-4 12-6 16-6s10 2 16 6"/><path d="M4 28v6h32v-6"/><path d="M20 22V8"/><path d="M14 12l6-5 6 5"/></svg>
+        <span class="tag">Mar&ndash;Jun</span>
+        <h3>Mulch &amp; bed edging</h3>
+        <p>Hand-cut trench edge, then double-shredded hardwood laid at depth. It holds moisture through the summer and keeps the grass out of your beds.</p>
+      </article>
+
+      <article class="card card--w2">
+        <svg class="ic" width="34" height="34" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><rect x="5" y="14" width="30" height="12" rx="2"/><path d="M11 26v8M20 26v8M29 26v8M11 6v8M20 6v8M29 6v8"/></svg>
+        <span class="tag">Sep&ndash;Oct</span>
+        <h3>Aeration &amp; overseeding</h3>
+        <p>Core aeration to open compacted clay, then seed and starter fertilizer while the ground is still warm. The one job that actually fixes a thin lawn.</p>
+      </article>
+
+      <article class="card card--w2">
+        <svg class="ic" width="34" height="34" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M20 4v32"/><path d="M20 14L8 8M20 14l12-6M20 26L9 20M20 26l11-6"/><path d="M4 36h32"/></svg>
+        <span class="tag">As needed</span>
+        <h3>Storm &amp; debris cleanup</h3>
+        <p>Downed limbs, blown-out beds, washed gravel. Call after the storm and we&rsquo;ll get the property back in shape and the debris off it.</p>
+      </article>
+
+      <article class="card card--w6">
+        <div class="row6">
+          <div>
+            <svg class="ic" width="34" height="34" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M3 30h34"/><path d="M3 30l8-8h18l8 8"/><path d="M11 22v-6h18v6"/><path d="M16 16v-5h8v5"/></svg>
+            <span class="tag" style="margin-top:.8rem">Year-round</span>
+            <h3 style="margin-top:.8rem">Hardscaping</h3>
+            <p style="margin-top:.8rem">Base work is where a patio lives or dies, so we dig it, compact it and screed it properly before a single paver goes down. Winter is a good time to build &mdash; the ground is workable and the schedule is open.</p>
+          </div>
+          <ul class="sub" style="grid-template-columns:repeat(2,minmax(0,1fr))">
+            <li>Paver patios</li>
+            <li>Walkways and steps</li>
+            <li>Block retaining walls</li>
+            <li>Fire pits and sitting walls</li>
+            <li>Gravel drives</li>
+            <li>Crushed shell drives</li>
+          </ul>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- extra shared defs used by the renovation frames and job tiles -->
+<svg class="defs" aria-hidden="true" focusable="false" width="0" height="0"><defs>
+  <pattern id="sodStripe" width="120" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(-24)">
+    <rect width="60" height="12" fill="#7D9276"/><rect x="60" width="60" height="12" fill="#6B8266"/>
+  </pattern>
+  <pattern id="sodStripeDusk" width="120" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(-24)">
+    <rect width="60" height="12" fill="#4C6154"/><rect x="60" width="60" height="12" fill="#3E5347"/>
+  </pattern>
+  <pattern id="turfPatch" width="240" height="180" patternUnits="userSpaceOnUse">
+    <rect width="240" height="180" fill="#8F9070"/>
+    <ellipse cx="52" cy="40" rx="58" ry="26" fill="#7D9276" opacity=".55"/>
+    <ellipse cx="168" cy="96" rx="72" ry="30" fill="#7D9276" opacity=".42"/>
+    <ellipse cx="214" cy="24" rx="40" ry="18" fill="#9B8C66" opacity=".5"/>
+    <ellipse cx="22" cy="142" rx="52" ry="22" fill="#9B8C66" opacity=".45"/>
+    <ellipse cx="120" cy="164" rx="46" ry="18" fill="#7D9276" opacity=".38"/>
+    <ellipse cx="198" cy="150" rx="34" ry="15" fill="#9B8C66" opacity=".4"/>
+  </pattern>
+  <pattern id="paverFace" width="82" height="42" patternUnits="userSpaceOnUse">
+    <rect width="82" height="42" fill="#C4BDAD"/>
+    <rect x="1" y="1" width="38" height="18" fill="#CDC6B6"/>
+    <rect x="43" y="1" width="38" height="18" fill="#BBB4A3"/>
+    <rect x="22" y="22" width="38" height="18" fill="#C8C1B0"/>
+    <rect x="64" y="22" width="17" height="18" fill="#BBB4A3"/>
+    <rect x="1" y="22" width="17" height="18" fill="#BBB4A3"/>
+  </pattern>
+</defs></svg>
+
+<!-- ============ 03 SIGNATURE: TRANSFORMATION SEQUENCE ============ -->
+<section class="reno" id="work">
+  <div class="wrap reno-head">
+    <div class="sect-head">
+      <p class="eyebrow"><span class="n">03</span> / One yard, start to finish</p>
+      <h2 style="color:var(--shell)">How a full <span class="gold">renovation</span> goes</h2>
+      <p class="lede">Six stages, in the order they actually happen. Scroll through it, or tap a stage below the picture to jump.</p>
+    </div>
+  </div>
+
+  <!-- SWAP: PHOTO ×6 — these are drawings standing in for the client's real progress photos.
+       Each <svg class="frame-art"> swaps 1:1 for <img class="frame-art" src="stage-N.jpg" alt="...">
+       with no other change; the CSS already handles sizing and cropping. -->
+  <div class="runway" id="runway">
+    <div class="stage" id="stage">
+      <div class="frames" id="frames">
+
+        <figure class="frame is-on" data-i="0">
+          <svg class="frame-art" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Stage one: a thin patchy lawn with an old stump and weedy beds.">
+            <rect width="1200" height="214" fill="url(#skyDay)"/>
+            <use href="#treeline" x="0" y="-20" width="1200" height="300"/>
+            <use href="#fenceBack" x="0" y="198" width="1200" height="90"/>
+            <rect y="290" width="1200" height="410" fill="url(#turfPatch)"/>
+            <rect y="290" width="1200" height="74" fill="#7E7052"/>
+            <rect y="290" width="1200" height="74" fill="url(#dirtTex)" opacity=".7"/>
+            <g stroke="#8C8F4E" stroke-width="3" fill="none" stroke-linecap="round">
+              <path d="M60 360v-30l-10-16M60 360v-26l12-18M180 362v-34l-12-18M180 362v-24l10-16M330 358v-30l-12-14M330 358v-22l12-16M520 362v-32l-10-16M520 362v-26l12-14M700 358v-28l-12-16M700 358v-20l10-14M880 362v-34l-10-18M880 362v-24l12-16M1040 360v-30l-12-16M1040 360v-22l10-14M1150 362v-32l-10-16"/>
+            </g>
+            <g>
+              <ellipse cx="830" cy="566" rx="62" ry="22" fill="#3E3022" opacity=".28"/>
+              <path d="M774 556c0-16 26-26 56-26s56 10 56 26v16c0 15-26 25-56 25s-56-10-56-25z" fill="#6B5941"/>
+              <ellipse cx="830" cy="556" rx="56" ry="24" fill="#A08962"/>
+              <ellipse cx="830" cy="556" rx="40" ry="17" fill="none" stroke="#7E6A4C" stroke-width="3"/>
+              <ellipse cx="830" cy="556" rx="25" ry="10" fill="none" stroke="#7E6A4C" stroke-width="3"/>
+              <ellipse cx="830" cy="556" rx="11" ry="4" fill="#7E6A4C"/>
+            </g>
+            <g fill="#8A7B5C" opacity=".75">
+              <ellipse cx="470" cy="620" rx="130" ry="36"/><ellipse cx="1010" cy="470" rx="90" ry="24"/><ellipse cx="150" cy="500" rx="110" ry="30"/>
+            </g>
+          </svg>
+          <figcaption class="cap"><i>Stage 01</i><b>Before</b><span>Thin patchy turf, an old stump nobody dealt with, and beds gone to weeds. First visit is us telling you what&rsquo;s fixable and what isn&rsquo;t.</span></figcaption>
+        </figure>
+
+        <figure class="frame" data-i="1">
+          <svg class="frame-art" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Stage two: brush and stump removed, beds stripped back to bare dirt.">
+            <rect width="1200" height="214" fill="url(#skyDay)"/>
+            <use href="#treeline" x="0" y="-20" width="1200" height="300"/>
+            <use href="#fenceBack" x="0" y="198" width="1200" height="90"/>
+            <rect y="290" width="1200" height="410" fill="url(#turfPatch)"/>
+            <rect y="290" width="1200" height="86" fill="#6E5C46"/>
+            <rect y="290" width="1200" height="86" fill="url(#dirtTex)" opacity=".8"/>
+            <path d="M0 376h1200" stroke="#4E4032" stroke-width="4"/>
+            <g>
+              <ellipse cx="830" cy="558" rx="74" ry="30" fill="#6E5C46"/>
+              <ellipse cx="830" cy="558" rx="74" ry="30" fill="url(#dirtTex)" opacity=".8"/>
+              <ellipse cx="830" cy="558" rx="44" ry="16" fill="#5A4A38"/>
+            </g>
+            <g fill="#5F5140" opacity=".55"><ellipse cx="470" cy="622" rx="140" ry="40"/><ellipse cx="1030" cy="470" rx="86" ry="24"/></g>
+            <g stroke="#4E4032" stroke-width="3" fill="none" opacity=".5"><path d="M120 640c120-24 260-30 380-14M640 520c130-18 250-14 360 8"/></g>
+          </svg>
+          <figcaption class="cap"><i>Stage 02</i><b>Cleared</b><span>Brush hauled off the property, stump ground out, beds stripped back to bare dirt. Nothing gets built on top of old roots.</span></figcaption>
+        </figure>
+
+        <figure class="frame" data-i="2">
+          <svg class="frame-art" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Stage three: the yard cut to grade with string lines and stakes set.">
+            <rect width="1200" height="214" fill="url(#skyDay)"/>
+            <use href="#treeline" x="0" y="-20" width="1200" height="300"/>
+            <use href="#fenceBack" x="0" y="198" width="1200" height="90"/>
+            <rect y="290" width="1200" height="410" fill="url(#dirtGrad)"/>
+            <rect y="290" width="1200" height="410" fill="url(#dirtTex)" opacity=".65"/>
+            <g stroke="#4E4032" stroke-width="2.5" fill="none" opacity=".45">
+              <path d="M0 470c260 14 520 10 1200-8M0 560c300 16 640 8 1200-12M0 650c320 18 700 6 1200-16"/>
+            </g>
+            <g stroke="#C9962C" stroke-width="3">
+              <path d="M96 480L1104 452"/><path d="M78 592L1128 560"/>
+            </g>
+            <g fill="#8A6E4A">
+              <rect x="90" y="470" width="9" height="60"/><rect x="430" y="462" width="9" height="60"/>
+              <rect x="770" y="456" width="9" height="60"/><rect x="1098" y="446" width="9" height="60"/>
+              <rect x="72" y="582" width="9" height="64"/><rect x="424" y="572" width="9" height="64"/>
+              <rect x="776" y="566" width="9" height="64"/><rect x="1122" y="554" width="9" height="64"/>
+            </g>
+            <g fill="#E4C377">
+              <rect x="86" y="464" width="17" height="8"/><rect x="426" y="456" width="17" height="8"/>
+              <rect x="766" y="450" width="17" height="8"/><rect x="1094" y="440" width="17" height="8"/>
+            </g>
+          </svg>
+          <figcaption class="cap"><i>Stage 03</i><b>Graded</b><span>Cut to grade with string lines and stakes so water runs away from the house instead of sitting against it.</span></figcaption>
+        </figure>
+
+        <figure class="frame" data-i="3">
+          <svg class="frame-art" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Stage four: paver patio laid on compacted base with a stepped block retaining wall across the back.">
+            <rect width="1200" height="214" fill="url(#skyDay)"/>
+            <use href="#treeline" x="0" y="-20" width="1200" height="300"/>
+            <use href="#fenceBack" x="0" y="198" width="1200" height="90"/>
+            <rect y="290" width="1200" height="410" fill="url(#dirtGrad)"/>
+            <rect y="290" width="1200" height="410" fill="url(#dirtTex)" opacity=".65"/>
+            <use href="#retwall" width="1200" height="700"/>
+            <use href="#patio" width="1200" height="700"/>
+            <g>
+              <rect x="120" y="596" width="150" height="16" fill="#BBB4A3" stroke="#9A9282" stroke-width="2"/>
+              <rect x="126" y="580" width="150" height="16" fill="#C8C1B0" stroke="#9A9282" stroke-width="2"/>
+              <rect x="118" y="564" width="150" height="16" fill="#BBB4A3" stroke="#9A9282" stroke-width="2"/>
+              <ellipse cx="380" cy="628" rx="86" ry="26" fill="#B4A17C"/>
+              <path d="M294 628c0-16 38-30 86-30s86 14 86 30" fill="#C6B48F"/>
+            </g>
+          </svg>
+          <figcaption class="cap"><i>Stage 04</i><b>Hardscape in</b><span>Pavers set on compacted base, joints swept tight, and a block wall stepped across the back to hold the slope.</span></figcaption>
+        </figure>
+
+        <figure class="frame" data-i="4">
+          <svg class="frame-art" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Stage five: mulched beds hand-edged, shrubs planted and fresh sod laid in stripes.">
+            <rect width="1200" height="214" fill="url(#skyDay)"/>
+            <use href="#treeline" x="0" y="-20" width="1200" height="300"/>
+            <use href="#fenceBack" x="0" y="198" width="1200" height="90"/>
+            <rect y="290" width="1200" height="410" fill="url(#sodStripe)"/>
+            <path d="M0 290h1200v58c-180 22-420 30-660 22S180 352 0 360z" fill="url(#mulchTex)"/>
+            <path d="M0 360c180-8 300 4 540 14s480 0 660-22" fill="none" stroke="#2E2418" stroke-width="7"/>
+            <g color="#3E5A46">
+              <use href="#shrub" x="70" y="288" width="118" height="72"/>
+              <use href="#shrub" x="250" y="294" width="98" height="62"/>
+              <use href="#shrub" x="420" y="290" width="110" height="68"/>
+              <use href="#shrub" x="880" y="288" width="104" height="66"/>
+              <use href="#shrub" x="1046" y="292" width="112" height="64"/>
+            </g>
+            <use href="#retwall" width="1200" height="700"/>
+            <use href="#patio" width="1200" height="700"/>
+          </svg>
+          <figcaption class="cap"><i>Stage 05</i><b>Planted</b><span>Beds hand-edged and mulched, shrubs set, fresh sod laid in stripes and rolled flat.</span></figcaption>
+        </figure>
+
+        <figure class="frame" data-i="5">
+          <svg class="frame-art" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Stage six: the finished yard at dusk with landscape lighting glowing through the beds.">
+            <rect width="1200" height="214" fill="url(#skyDusk)"/>
+            <use href="#treeline" x="0" y="-20" width="1200" height="300"/>
+            <use href="#fenceBack" x="0" y="198" width="1200" height="90"/>
+            <rect y="290" width="1200" height="410" fill="url(#sodStripeDusk)"/>
+            <path d="M0 290h1200v58c-180 22-420 30-660 22S180 352 0 360z" fill="url(#mulchTex)"/>
+            <path d="M0 360c180-8 300 4 540 14s480 0 660-22" fill="none" stroke="#1F1810" stroke-width="7"/>
+            <g color="#22392E">
+              <use href="#shrub" x="70" y="288" width="118" height="72"/>
+              <use href="#shrub" x="250" y="294" width="98" height="62"/>
+              <use href="#shrub" x="420" y="290" width="110" height="68"/>
+              <use href="#shrub" x="880" y="288" width="104" height="66"/>
+              <use href="#shrub" x="1046" y="292" width="112" height="64"/>
+            </g>
+            <use href="#retwall" width="1200" height="700"/>
+            <use href="#patio" width="1200" height="700"/>
+            <rect y="198" width="1200" height="502" fill="#0E1F1B" opacity=".46"/>
+            <g>
+              <ellipse cx="130" cy="346" rx="170" ry="112" fill="url(#glowWarm)" opacity=".55"/>
+              <ellipse cx="470" cy="346" rx="162" ry="106" fill="url(#glowWarm)" opacity=".5"/>
+              <ellipse cx="930" cy="344" rx="162" ry="106" fill="url(#glowWarm)" opacity=".5"/>
+              <ellipse cx="880" cy="470" rx="230" ry="86" fill="url(#glowWarm)" opacity=".36"/>
+            </g>
+            <g fill="#C9962C">
+              <rect x="206" y="346" width="7" height="34"/><path d="M198 346h23l-6-12h-11z"/>
+              <rect x="606" y="350" width="7" height="34"/><path d="M598 350h23l-6-12h-11z"/>
+              <rect x="1006" y="346" width="7" height="34"/><path d="M998 346h23l-6-12h-11z"/>
+            </g>
+          </svg>
+          <figcaption class="cap"><i>Stage 06</i><b>Finished at dusk</b><span>Lighting in the beds, a patio you&rsquo;ll actually sit on, and a yard you don&rsquo;t have to fight every weekend.</span></figcaption>
+        </figure>
+
+      </div>
+
+      <div class="rail" id="rail" role="group" aria-label="Renovation stages">
+        <button class="seg" type="button" data-i="0" aria-current="true"><span class="seg-fill"></span><span class="seg-n">01</span><span class="seg-l">Before</span></button>
+        <button class="seg" type="button" data-i="1"><span class="seg-fill"></span><span class="seg-n">02</span><span class="seg-l">Cleared</span></button>
+        <button class="seg" type="button" data-i="2"><span class="seg-fill"></span><span class="seg-n">03</span><span class="seg-l">Graded</span></button>
+        <button class="seg" type="button" data-i="3"><span class="seg-fill"></span><span class="seg-n">04</span><span class="seg-l">Hardscape in</span></button>
+        <button class="seg" type="button" data-i="4"><span class="seg-fill"></span><span class="seg-n">05</span><span class="seg-l">Planted</span></button>
+        <button class="seg" type="button" data-i="5"><span class="seg-fill"></span><span class="seg-n">06</span><span class="seg-l">Finished</span></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 04 RECENT JOBS ============ -->
+<section class="sect" id="jobs">
+  <div class="wrap">
+    <div class="jobs-head">
+      <div class="sect-head">
+        <p class="eyebrow"><span class="n">04</span> / Recent jobs</p>
+        <h2>Every finished yard <span class="sage">goes on Instagram</span></h2>
+        <!-- SWAP: CONFIRM — follower and post counts (906 followers / 44 posts) were read off the profile once.
+             Re-check the day this launches, or drop the numbers and keep the sentence. -->
+        <p class="lede">44 posts, 906 people watching. We put the yard up the day we finish it &mdash; before, after, and the mess in between. Look through it and judge the work yourself.</p>
+      </div>
+      <a class="btn" href="https://www.instagram.com/dblandscaping19/" target="_blank" rel="noopener">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1.3" fill="currentColor" stroke="none"/></svg>
+        Follow on Instagram
+      </a>
+    </div>
+
+    <!-- SWAP: PHOTO ×6 — square 1:1 tiles sized for Instagram crops.
+         Replace each <svg class="frame-art"> with <img class="frame-art" src="job-N.jpg" alt="..."> — nothing else changes. -->
+    <div class="job-grid">
+      <a class="job" href="https://www.instagram.com/dblandscaping19/" target="_blank" rel="noopener" aria-label="Weekly mow, on Instagram">
+        <svg class="frame-art" viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <rect width="400" height="146" fill="url(#skyDay)"/><use href="#treeline" x="0" y="46" width="400" height="100"/>
+          <rect y="144" width="400" height="256" fill="url(#sodStripe)"/>
+          <rect y="144" width="400" height="256" fill="url(#lawnDepth)"/>
+        </svg>
+        <b>Weekly mow</b>
+      </a>
+      <a class="job" href="https://www.instagram.com/dblandscaping19/" target="_blank" rel="noopener" aria-label="Fresh mulch and hand-cut edge, on Instagram">
+        <svg class="frame-art" viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <rect width="400" height="400" fill="url(#sodStripe)"/>
+          <path d="M0 120h400v170c-120 24-260 30-400 10z" fill="url(#mulchTex)"/>
+          <path d="M0 300c140 20 280 14 400-10" fill="none" stroke="#2E2418" stroke-width="8"/>
+          <g color="#3E5A46"><use href="#shrub" x="26" y="122" width="112" height="76"/><use href="#shrub" x="176" y="132" width="96" height="66"/><use href="#shrub" x="292" y="124" width="106" height="72"/></g>
+        </svg>
+        <b>Mulch &amp; edge</b>
+      </a>
+      <a class="job" href="https://www.instagram.com/dblandscaping19/" target="_blank" rel="noopener" aria-label="Paver patio, on Instagram">
+        <svg class="frame-art" viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <rect width="400" height="130" fill="url(#sodStripe)"/>
+          <rect y="126" width="400" height="274" fill="url(#paverFace)"/>
+          <rect y="126" width="400" height="10" fill="#9A9282"/>
+          <rect y="126" width="400" height="274" fill="url(#lawnDepth)" opacity=".5"/>
+        </svg>
+        <b>Paver patio</b>
+      </a>
+      <a class="job" href="https://www.instagram.com/dblandscaping19/" target="_blank" rel="noopener" aria-label="Block retaining wall, on Instagram">
+        <svg class="frame-art" viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <rect width="400" height="150" fill="url(#mulchTex)"/>
+          <rect y="150" width="400" height="250" fill="#B3AB9C"/>
+          <g stroke="#9A9282" stroke-width="4"><path d="M0 196h400M0 242h400M0 288h400M0 334h400"/></g>
+          <g stroke="#9A9282" stroke-width="4"><path d="M70 150v46M210 150v46M330 150v46M140 196v46M280 196v46M40 242v46M180 242v46M320 242v46M110 288v46M250 288v46"/></g>
+          <rect y="140" width="400" height="16" fill="#C6BEAE"/>
+        </svg>
+        <b>Retaining wall</b>
+      </a>
+      <a class="job" href="https://www.instagram.com/dblandscaping19/" target="_blank" rel="noopener" aria-label="Fall leaf removal, on Instagram">
+        <svg class="frame-art" viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <rect width="400" height="140" fill="url(#skyDay)"/><use href="#treeline" x="0" y="40" width="400" height="100"/>
+          <rect y="138" width="400" height="262" fill="url(#turfPatch)"/>
+          <ellipse cx="270" cy="330" rx="130" ry="62" fill="#8A6A34"/>
+          <ellipse cx="270" cy="316" rx="110" ry="50" fill="#A57F3E"/>
+          <g fill="#C9962C"><ellipse cx="60" cy="220" rx="16" ry="9" transform="rotate(-18 60 220)"/><ellipse cx="130" cy="270" rx="15" ry="8" transform="rotate(22 130 270)"/><ellipse cx="40" cy="330" rx="17" ry="9" transform="rotate(8 40 330)"/><ellipse cx="150" cy="180" rx="13" ry="7" transform="rotate(-30 150 180)"/></g>
+        </svg>
+        <b>Leaf removal</b>
+      </a>
+      <a class="job" href="https://www.instagram.com/dblandscaping19/" target="_blank" rel="noopener" aria-label="Landscape lighting at dusk, on Instagram">
+        <svg class="frame-art" viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <rect width="400" height="150" fill="url(#skyDusk)"/><use href="#treeline" x="0" y="50" width="400" height="100"/>
+          <rect y="148" width="400" height="252" fill="url(#sodStripeDusk)"/>
+          <path d="M0 148h400v92c-120 20-260 24-400 6z" fill="url(#mulchTex)"/>
+          <g color="#22392E"><use href="#shrub" x="34" y="146" width="104" height="70"/><use href="#shrub" x="256" y="150" width="110" height="72"/></g>
+          <ellipse cx="200" cy="238" rx="190" ry="96" fill="url(#glowWarm)" opacity=".85"/>
+          <g fill="#C9962C"><rect x="192" y="230" width="7" height="34"/><path d="M184 230h23l-6-13h-11z"/></g>
+        </svg>
+        <b>Lighting at dusk</b>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 05 SERVICE AREA ============ -->
+<section class="sect" id="area" style="background:var(--shell-lift);border-block:2px solid var(--pine)">
+  <div class="wrap">
+    <div class="sect-head">
+      <p class="eyebrow"><span class="n">05</span> / Service area</p>
+      <h2>Three counties, <span class="sage">one truck</span></h2>
+      <p class="lede">We stay inside Southern Maryland on purpose. Short drives mean we show up when we said we would, and you are not paying for windshield time.</p>
+    </div>
+
+    <div class="area-in">
+      <div>
+        <!-- SWAP: CONFIRM — town list is assembled from the three counties, not from the owner.
+             Confirm which towns they actually run to, and whether there's a mileage cutoff. -->
+        <div class="county">
+          <h3>St. Mary&rsquo;s County</h3>
+          <ul class="chips">
+            <li>Leonardtown</li><li>California</li><li>Lexington Park</li><li>Hollywood</li><li>Mechanicsville</li><li>Great Mills</li><li>Charlotte Hall</li><li>Callaway</li><li>Chaptico</li><li>Ridge</li><li>Piney Point</li><li>Avenue</li>
+          </ul>
+        </div>
+        <div class="county">
+          <h3>Calvert County</h3>
+          <ul class="chips">
+            <li>Prince Frederick</li><li>Huntingtown</li><li>Dunkirk</li><li>Owings</li><li>St. Leonard</li><li>Lusby</li><li>Solomons</li><li>Chesapeake Beach</li><li>North Beach</li>
+          </ul>
+        </div>
+        <div class="county">
+          <h3>Charles County</h3>
+          <ul class="chips">
+            <li>Waldorf</li><li>La Plata</li><li>Hughesville</li><li>White Plains</li><li>Indian Head</li><li>Bryans Road</li><li>Port Tobacco</li><li>Nanjemoy</li>
+          </ul>
+        </div>
+        <p class="mono" style="margin-top:1.4rem;color:rgba(23,48,42,.65)">Not on the list? Call anyway &mdash; if we run past you, we&rsquo;ll take the job.</p>
+      </div>
+
+      <div class="map-box">
+        <svg viewBox="0 0 560 620" role="img" aria-label="Stylized map of Southern Maryland showing Charles, St. Mary's and Calvert counties with our routes marked.">
+          <rect width="560" height="620" fill="#C3CFC6"/>
+          <g stroke="#B0BFB6" stroke-width="2" fill="none">
+            <path d="M0 90c30 10 60 10 90 0M0 190c30 10 60 10 90 0M470 120c30 10 60 10 90 0M470 250c30 10 60 10 90 0M470 380c30 10 60 10 90 0M0 470c30 10 60 10 90 0"/>
+          </g>
+          <path d="M72 96 L150 62 L232 72 L268 120 L262 196 L300 236 L318 300 L350 372 L356 430 L330 470 L300 516 L268 540 L238 520 L206 462 L176 414 L150 352 L120 300 L96 236 L78 166 Z" fill="#E6E3D9" stroke="#17302A" stroke-width="3"/>
+          <path d="M316 150 L352 140 L392 206 L420 290 L436 372 L430 428 L404 452 L382 430 L368 364 L346 290 L322 214 Z" fill="#E6E3D9" stroke="#17302A" stroke-width="3"/>
+          <path d="M96 236 L262 196" stroke="#17302A" stroke-width="2" stroke-dasharray="7 6" fill="none" opacity=".55"/>
+          <g stroke="#C9962C" stroke-width="3.5" fill="none" stroke-dasharray="11 8" stroke-linecap="round">
+            <path d="M150 118 L172 168 L206 210 L232 300 L286 430 L302 502"/>
+            <path d="M206 210 L300 232 L352 268 L386 330 L410 404"/>
+          </g>
+          <g fill="#17302A">
+            <circle cx="150" cy="118" r="6"/><circle cx="172" cy="168" r="6"/><circle cx="206" cy="210" r="6"/>
+            <circle cx="232" cy="300" r="6"/><circle cx="286" cy="430" r="6"/><circle cx="302" cy="502" r="6"/>
+            <circle cx="352" cy="268" r="6"/><circle cx="410" cy="404" r="6"/>
+          </g>
+          <g fill="#17302A" font-family="'IBM Plex Mono',monospace" font-size="12.5">
+            <text x="163" y="114">Waldorf</text>
+            <text x="185" y="164">La Plata</text>
+            <text x="219" y="206">Hughesville</text>
+            <text x="222" y="296" text-anchor="end">Leonardtown</text>
+            <text x="272" y="426" text-anchor="end">Lexington Park</text>
+            <text x="288" y="524" text-anchor="end">Ridge</text>
+            <text x="366" y="264">Prince Frederick</text>
+            <text x="424" y="400">Solomons</text>
+          </g>
+          <g fill="#17302A" font-family="'IBM Plex Mono',monospace" font-size="11" opacity=".45" letter-spacing="1.5">
+            <text x="18" y="300" transform="rotate(-70 18 300)">POTOMAC RIVER</text>
+            <text x="506" y="240" transform="rotate(80 506 240)">CHESAPEAKE BAY</text>
+            <text x="452" y="560" text-anchor="end">STYLIZED &mdash; NOT TO SCALE</text>
+          </g>
+          <g>
+            <path d="M508 44 L516 66 L508 60 L500 66 Z" fill="#C9962C"/>
+            <text x="508" y="86" text-anchor="middle" fill="#17302A" font-family="'IBM Plex Mono',monospace" font-size="12">N</text>
+          </g>
+        </svg>
+      </div>
+    </div>
+
+    <ul class="proof">
+      <li><span class="n">01</span><b>You get the owner.</b><p>The person who walks your property and gives you the number is the person running the job. No call center, no different crew every week.</p></li>
+      <li><span class="n">02</span><b>Estimates back within the week.</b><p>Usually sooner. One flat price for the work, in writing, before anything starts.</p></li>
+      <li><span class="n">03</span><b>900+ following on Instagram.</b><p>Years of finished yards posted the day they were done. Scroll it before you call &mdash; that&rsquo;s the whole portfolio.</p></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ 06 TESTIMONIALS ============ -->
+<!-- SWAP: REVIEWS — placeholder text only. Real quotes must be pulled from their Facebook recommendations
+     (facebook.com/dblandscaping19) and used with permission before launch. Do not invent reviews. -->
+<section class="sect" id="reviews">
+  <div class="wrap">
+    <div class="sect-head">
+      <p class="eyebrow"><span class="n">06</span> / What people say</p>
+      <h2>In their words &mdash; <span class="sage">once we have them</span></h2>
+      <p class="lede">These three slots are held for real recommendations off the DB Landscaping Facebook page. Nothing goes in here that a customer didn&rsquo;t actually write.</p>
+    </div>
+    <div class="quotes">
+      <figure class="quote">
+        <blockquote class="placeholder">[Real Facebook recommendation &mdash; about showing up on schedule.]</blockquote>
+        <figcaption>[First name, last initial] &middot; [Town]</figcaption>
+      </figure>
+      <figure class="quote">
+        <blockquote class="placeholder">[Real Facebook recommendation &mdash; about a cleanup or hardscape job.]</blockquote>
+        <figcaption>[First name, last initial] &middot; [Town]</figcaption>
+      </figure>
+      <figure class="quote">
+        <blockquote class="placeholder">[Real Facebook recommendation &mdash; about the price matching the quote.]</blockquote>
+        <figcaption>[First name, last initial] &middot; [Town]</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 07 ESTIMATE ============ -->
+<section class="sect band" id="estimate">
+  <div class="wrap">
+    <div class="sect-head">
+      <p class="eyebrow"><span class="n">07</span> / Get a price</p>
+      <h2 style="color:var(--shell)">Tell us about <span class="gold">the yard</span></h2>
+    </div>
+
+    <div class="est-in">
+      <div>
+        <ol class="steps">
+          <li><span class="num">01</span><div><b>Send the details, or just text photos.</b><p>Three photos of the yard tell us more than three paragraphs. Address helps too.</p></div></li>
+          <li><span class="num">02</span><div><b>We come measure.</b><p>Usually within the week. You don&rsquo;t need to be home for it.</p></div></li>
+          <li><span class="num">03</span><div><b>Flat price up front.</b><p>One number for the work, before anything starts. No hourly surprises at the end.</p></div></li>
+        </ol>
+        <a class="bigphone" href="tel:+12404960769">240-496-0769</a>
+        <a class="estmail" href="mailto:Dblandscaping19@yahoo.com">Dblandscaping19@yahoo.com</a>
+      </div>
+
+      <!-- No backend. On submit we build a mailto: link and hand off to the visitor's email app.
+           SWAP: BACKEND — to send server-side instead, point action= at a Formspree (or similar) endpoint,
+           delete the e.preventDefault()/mailto block in sendEstimate() and let the form post normally. -->
+      <form class="form" id="estForm" novalidate>
+        <h3>Request an estimate</h3>
+        <p class="hint">Fills out an email to DB Landscaping and opens it in your email app. Nothing is sent until you hit send.</p>
+        <div class="fields">
+          <div class="field">
+            <label for="f-name">Name <span class="req">*</span></label>
+            <input id="f-name" name="name" type="text" autocomplete="name" required aria-describedby="e-name">
+            <span class="err" id="e-name" aria-live="polite"></span>
+          </div>
+          <div class="field">
+            <label for="f-phone">Phone <span class="req">*</span></label>
+            <input id="f-phone" name="phone" type="tel" autocomplete="tel" required aria-describedby="e-phone">
+            <span class="err" id="e-phone" aria-live="polite"></span>
+          </div>
+          <div class="field">
+            <label for="f-town">Town <span class="req">*</span></label>
+            <input id="f-town" name="town" type="text" list="towns" autocomplete="address-level2" required aria-describedby="e-town">
+            <datalist id="towns">
+              <option>Leonardtown</option><option>California</option><option>Lexington Park</option><option>Hollywood</option>
+              <option>Mechanicsville</option><option>Great Mills</option><option>Charlotte Hall</option><option>Callaway</option>
+              <option>Chaptico</option><option>Ridge</option><option>Piney Point</option><option>Avenue</option>
+              <option>Prince Frederick</option><option>Huntingtown</option><option>Dunkirk</option><option>Owings</option>
+              <option>St. Leonard</option><option>Lusby</option><option>Solomons</option><option>Chesapeake Beach</option>
+              <option>North Beach</option><option>Waldorf</option><option>La Plata</option><option>Hughesville</option>
+              <option>White Plains</option><option>Indian Head</option><option>Bryans Road</option><option>Port Tobacco</option><option>Nanjemoy</option>
+            </datalist>
+            <span class="err" id="e-town" aria-live="polite"></span>
+          </div>
+          <div class="field">
+            <label for="f-service">What do you need? <span class="req">*</span></label>
+            <select id="f-service" name="service" required aria-describedby="e-service">
+              <option value="">Pick one</option>
+              <option>Weekly lawn maintenance</option>
+              <option>Spring or fall cleanup</option>
+              <option>Mulch &amp; bed edging</option>
+              <option>Aeration &amp; overseeding</option>
+              <option>Hardscaping</option>
+              <option>Storm &amp; debris cleanup</option>
+              <option>Not sure yet</option>
+            </select>
+            <span class="err" id="e-service" aria-live="polite"></span>
+          </div>
+          <div class="field full">
+            <label for="f-details">Details</label>
+            <textarea id="f-details" name="details" placeholder="Yard size, what's going on out there, when you'd like it done."></textarea>
+            <span class="err" id="e-details"></span>
+          </div>
+        </div>
+        <button class="btn btn--gold" type="submit">Open my email with this filled in</button>
+        <p class="sent" id="estSent" hidden role="status">
+          <b>Your email app is opening.</b>
+          Everything you typed is already in the message &mdash; hit send and it comes straight to us. If nothing opened, call or text <a href="tel:+12404960769">240-496-0769</a>.
+        </p>
+      </form>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <a class="mark" href="#top" aria-label="DB Landscaping, back to top">
+      <span class="mark-tile" aria-hidden="true">DB</span>
+      <span class="mark-txt" style="color:var(--shell)"><b>DB Landscaping</b><span style="color:rgba(230,227,217,.6)">Southern Maryland</span></span>
+    </a>
+    <div>
+      <a class="line" href="tel:+12404960769">240-496-0769</a>
+      <a class="line" href="mailto:Dblandscaping19@yahoo.com">Dblandscaping19@yahoo.com</a>
+    </div>
+    <div class="hdr-side">
+      <a class="icon-link" href="https://www.instagram.com/dblandscaping19/" target="_blank" rel="noopener" aria-label="DB Landscaping on Instagram">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1.3" fill="currentColor" stroke="none"/></svg>
+      </a>
+      <a class="icon-link" href="https://www.facebook.com/dblandscaping19/" target="_blank" rel="noopener" aria-label="DB Landscaping on Facebook">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14.2 22v-8.4h2.9l.5-3.4h-3.4V8c0-1 .3-1.7 1.7-1.7h1.8V3.2A24 24 0 0 0 15 3c-2.7 0-4.5 1.6-4.5 4.6v2.6H7.6v3.4h2.9V22h3.7z"/></svg>
+      </a>
+    </div>
+    <p class="fine">&copy; <span id="yr">2026</span> DB Landscaping &middot; St. Mary&rsquo;s, Calvert &amp; Charles County, MD &middot; Mowing, cleanups, mulch, aeration, hardscaping</p>
+  </div>
+</footer>
+
+<!-- patio + wall geometry, shared by renovation stages 04, 05 and 06 -->
+<svg class="defs" aria-hidden="true" focusable="false" width="0" height="0"><defs>
+  <symbol id="retwall" viewBox="0 0 1200 700">
+    <rect x="596" y="440" width="194" height="30" fill="#B3AB9C"/>
+    <rect x="790" y="420" width="192" height="50" fill="#ADA596"/>
+    <rect x="982" y="398" width="198" height="72" fill="#A79F91"/>
+    <rect x="592" y="430" width="202" height="11" fill="#C6BEAE"/>
+    <rect x="786" y="410" width="200" height="11" fill="#C6BEAE"/>
+    <rect x="978" y="388" width="206" height="11" fill="#C6BEAE"/>
+    <g stroke="#8E8778" stroke-width="2.5">
+      <path d="M790 446h192M982 424h198M982 448h198"/>
+      <path d="M660 441v29M724 441v29M856 421v25M920 446v24M1046 399v25M1112 424v24M1046 448v22"/>
+    </g>
+    <path d="M596 470h584" stroke="#7E7769" stroke-width="3"/>
+  </symbol>
+  <symbol id="patio" viewBox="0 0 1200 700">
+    <path d="M640 470 L1130 470 L1200 700 L540 700 Z" fill="#C4BDAD"/>
+    <g stroke="#A79F8E" stroke-width="2.5" fill="none">
+      <path d="M622 511H1143M602 557H1157M578 613H1173M555 666H1190"/>
+      <path d="M701 470L623 700M763 470L705 700M824 470L788 700M885 470L870 700M946 470L953 700M1008 470L1035 700M1069 470L1118 700"/>
+    </g>
+    <path d="M640 470 L1130 470 L1200 700 L540 700 Z" fill="none" stroke="#9A9282" stroke-width="9"/>
+    <path d="M640 470 L1130 470" stroke="#D3CCBC" stroke-width="5"/>
+  </symbol>
+</defs></svg>
+
+<script>
+(function(){
+  'use strict';
+  var reduce = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false;
+  function el(tag, cls, txt){ var n=document.createElement(tag); if(cls){n.className=cls;} if(txt!=null){n.textContent=txt;} return n; }
+  function $(id){ return document.getElementById(id); }
+
+  $('yr').textContent = new Date().getFullYear();
+
+  /* ---------------- mobile nav ---------------- */
+  var hdr=$('hdr'), tog=$('navtoggle');
+  tog.addEventListener('click', function(){
+    var open = hdr.classList.toggle('open');
+    tog.setAttribute('aria-expanded', open ? 'true' : 'false');
+    tog.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  });
+  $('sitenav').addEventListener('click', function(e){
+    if(e.target.tagName === 'A'){ hdr.classList.remove('open'); tog.setAttribute('aria-expanded','false'); }
+  });
+
+  /* ---------------- 01 the yard calendar ---------------- */
+  var SERVICES = [
+    {name:"Spring cleanup",      start:3,  end:4 },
+    {name:"Mowing & trimming",   start:4,  end:10},
+    {name:"Mulch & bed edging",  start:3,  end:6 },
+    {name:"Fertilize & weed",    start:4,  end:9 },
+    {name:"Aeration & overseed", start:9,  end:10},
+    {name:"Leaf removal",        start:10, end:12},
+    {name:"Hardscaping",         start:1,  end:12}
+  ];
+  var MONTHS=["January","February","March","April","May","June","July","August","September","October","November","December"];
+  var M3=["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
+  var RIGHT_NOW=[
+    "Quiet month, so it's the cheap month to build. Patios and walls go in fine in the cold, and the yard is ready before spring hits.",
+    "Book your spring cleanup now. February is when March and April fill up — call this month and you get the date you want.",
+    "Cleanup season. Beds cut back, winter debris hauled off, mulch starting to go down. First mows are a few weeks out.",
+    "Mowing starts. Weekly service, a fresh hard edge on every bed, and the first round of fertilizer while the ground is still cool.",
+    "Everything is growing at once. Weekly mowing keeps ahead of it, and mulch laid now holds moisture all summer.",
+    "Last good month for mulch before the heat. Mowing runs weekly and beds get weeded on the same visit.",
+    "Heat month. We raise the deck so the lawn holds moisture, keep the edges sharp, and stay on top of the weeds.",
+    "Thin spots are showing. Worth walking the yard this month so aeration and seed are on the books for September.",
+    "The month to fix a thin lawn. Aerate and overseed now and it fills in before frost — miss it and you wait a year.",
+    "Last call for seed, and the leaves are starting. Mowing winds down while fall cleanups get scheduled.",
+    "Leaf removal, whole property. Fall cleanup, beds cut back, and the yard put away for winter.",
+    "Final leaf pass and storm cleanup. Good month to get a patio or a wall priced out for spring."
+  ];
+
+  var M = new Date().getMonth() + 1;
+  $('rnMonth').textContent = MONTHS[M-1];
+  $('rnText').textContent  = RIGHT_NOW[M-1];
+
+  var grid=$('calGrid'), frag=document.createDocumentFragment(), i;
+  frag.appendChild(el('div','cal-corner','Service'));
+  for(i=0;i<12;i++){ frag.appendChild(el('div','cal-h'+(i+1===M?' is-now':''), M3[i])); }
+
+  var listFrag=document.createDocumentFragment();
+  SERVICES.forEach(function(s){
+    var active = (M >= s.start && M <= s.end);
+    var span = (s.start===1 && s.end===12) ? 'Year-round' : (M3[s.start-1]+'–'+M3[s.end-1]);
+    frag.appendChild(el('div','cal-name', s.name));
+    var track = el('div','cal-track');
+    var bar = el('div','cal-bar mow'+(active?' is-active':''));
+    bar.style.gridColumn = s.start + ' / ' + (s.end + 1);
+    bar.appendChild(el('span', null, span));
+    track.appendChild(bar);
+    frag.appendChild(track);
+    listFrag.appendChild(el('li', null, s.name+': '+MONTHS[s.start-1]+' through '+MONTHS[s.end-1]+'.'+(active?' Running this month.':'')));
+  });
+  grid.appendChild(frag);
+  $('calText').appendChild(listFrag);
+
+  var marker = el('div','cal-marker');
+  marker.setAttribute('data-label', 'Today');
+  marker.style.left = 'calc(var(--lab) + (100% - var(--lab)) * ' + ((M - 0.5)/12).toFixed(5) + ')';
+  $('calChart').appendChild(marker);
+
+  /* ---------------- 03 transformation sequence ---------------- */
+  var runway=$('runway'), stage=$('stage'),
+      frames=[].slice.call(document.querySelectorAll('#frames .frame')),
+      segs=[].slice.call(document.querySelectorAll('#rail .seg')),
+      N=frames.length, cur=0, lockUntil=0, ticking=false;
+
+  function setIndex(n){
+    if(n === cur){ return; }
+    frames.forEach(function(f){ f.classList.remove('is-under'); });
+    if(frames[cur]){ frames[cur].classList.add('is-under'); }
+    frames.forEach(function(f,k){ f.classList.toggle('is-on', k === n); });
+    segs.forEach(function(s,k){
+      if(k === n){ s.setAttribute('aria-current','true'); } else { s.removeAttribute('aria-current'); }
+    });
+    cur = n;
+  }
+  function setFills(p){
+    for(var k=0;k<N;k++){
+      var f = Math.max(0, Math.min(1, p*N - k));
+      segs[k].firstElementChild.style.width = (f*100).toFixed(2) + '%';
+    }
+  }
+  function metrics(){
+    return { top: hdr.offsetHeight, total: runway.offsetHeight - stage.offsetHeight };
+  }
+  function update(){
+    ticking = false;
+    if(Date.now() < lockUntil){ return; }
+    var m = metrics();
+    if(m.total <= 0){ return; }
+    var p = (m.top - runway.getBoundingClientRect().top) / m.total;
+    p = Math.max(0, Math.min(1, p));
+    setFills(p);
+    setIndex(Math.min(N-1, Math.floor(p*N)));
+  }
+  function onScroll(){ if(!ticking){ ticking = true; requestAnimationFrame(update); } }
+
+  segs.forEach(function(s,k){
+    s.addEventListener('click', function(){
+      if(reduce){ setIndex(k); setFills((k+1)/N); return; }
+      /* lock the scroll handler out briefly so the click and the scroll don't fight */
+      lockUntil = Date.now() + 900;
+      setIndex(k);
+      setFills((k + 0.5)/N);
+      var m = metrics();
+      var y = runway.getBoundingClientRect().top + window.pageYOffset - m.top + m.total * ((k + 0.5)/N);
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    });
+  });
+
+  if(reduce){
+    setIndex(N-1);
+    setFills(1);
+  } else {
+    window.addEventListener('scroll', onScroll, {passive:true});
+    window.addEventListener('resize', onScroll);
+    update();
+  }
+
+  /* ---------------- 07 estimate form -> mailto ---------------- */
+  var form=$('estForm'), sent=$('estSent');
+  var REQ=['name','phone','town','service'];
+  function val(id){ return $('f-'+id).value.trim(); }
+  function bad(id,msg){ $('e-'+id).textContent=msg; $('f-'+id).setAttribute('aria-invalid','true'); return $('f-'+id); }
+  function ok(id){ $('e-'+id).textContent=''; $('f-'+id).removeAttribute('aria-invalid'); }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var firstBad=null, k;
+    for(k=0;k<REQ.length;k++){
+      var id=REQ[k];
+      if(!val(id)){
+        var n=bad(id, id==='service' ? 'Pick one.' : 'We need this.');
+        if(!firstBad){ firstBad=n; }
+      } else { ok(id); }
+    }
+    if(val('phone') && val('phone').replace(/\D/g,'').length < 10){
+      var p=bad('phone','Needs a full 10-digit number.');
+      if(!firstBad){ firstBad=p; }
+    }
+    if(firstBad){ sent.hidden=true; firstBad.focus(); return; }
+
+    var subject = 'Estimate request — ' + val('service') + ' — ' + val('town');
+    var body = [
+      'Name: '    + val('name'),
+      'Phone: '   + val('phone'),
+      'Town: '    + val('town'),
+      'Service: ' + val('service'),
+      '',
+      'Details:',
+      val('details') || '(none given)',
+      '',
+      'Sent from the DB Landscaping website estimate form.'
+    ].join('\n');
+
+    window.location.href = 'mailto:Dblandscaping19@yahoo.com'
+      + '?subject=' + encodeURIComponent(subject)
+      + '&body='    + encodeURIComponent(body);
+    sent.hidden = false;
+  });
+})();
+</script>
+</body>
+</html>
