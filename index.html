@@ -187,9 +187,24 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 
 /* ---------- hero ---------- */
 .hero{position:relative;overflow:hidden;padding-block:clamp(64px,9vw,120px)}
-.hero-bg{position:absolute;inset:0;pointer-events:none}
-.hero-bg .seam{position:absolute;right:-120px;top:-80px;width:640px;opacity:.05}
+.hero-bg{position:absolute;inset:0;pointer-events:none;overflow:hidden}
 .hero-bg .glow{position:absolute;left:-200px;bottom:-260px;width:640px;height:640px;border-radius:50%;background:radial-gradient(circle,rgba(51,161,231,.14),transparent 65%)}
+/* "Line Drive" animated background */
+.hbg-flight .hbg-flight-canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hbg-flight .hbg-flight-glow{
+  position:absolute;right:-12%;top:6%;width:56%;height:72%;
+  background:radial-gradient(closest-side,rgba(51,161,231,.14),rgba(51,161,231,0) 72%);
+  filter:blur(12px);opacity:.7;
+  animation:hbg-flight-glowPulse 14s ease-in-out infinite alternate;
+  will-change:opacity,transform;
+}
+@keyframes hbg-flight-glowPulse{
+  from{opacity:.6;transform:scale(.96)}
+  to{opacity:.95;transform:scale(1.05)}
+}
+@media (prefers-reduced-motion:reduce){
+  .hbg-flight .hbg-flight-glow{animation:none;opacity:.65;transform:scale(1)}
+}
 .hero-grid{position:relative;display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(2rem,5vw,4.5rem);align-items:center}
 .pill{
   display:inline-flex;align-items:center;gap:.5rem;
@@ -522,9 +537,10 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 
 <!-- ================= hero ================= -->
 <section class="hero" id="home">
-  <div class="hero-bg" aria-hidden="true">
-    <svg class="seam" viewBox="0 0 400 400"><use href="#seam"/></svg>
+  <div class="hero-bg hbg-flight" aria-hidden="true">
     <div class="glow"></div>
+    <div class="hbg-flight-glow"></div>
+    <canvas class="hbg-flight-canvas"></canvas>
   </div>
   <div class="wrap hero-grid">
     <div>
@@ -1157,6 +1173,214 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
       + '&body=' + encodeURIComponent('Please add ' + em.value.trim() + ' to the G1 mailing list. Thanks!');
     newsDone.classList.add('show');
   });
+
+  /* ---------- "Line Drive" hero background: flying baseball on canvas ---------- */
+  (function(){
+    var root = document.querySelector('.hbg-flight');
+    if (!root) return;
+    var canvas = root.querySelector('.hbg-flight-canvas');
+    if (!canvas) return;
+    var ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    var ACCENT = '51,161,231';
+    var ACCENT2 = '124,196,240';
+    var STITCH = '192,57,43';
+    var TRAIL_LIFE = 0.8;      // seconds a comet-tail point survives
+    var TRACER_FADE = 18;      // seconds a spray-chart arc takes to dissolve
+    var MAX_TRACERS = 5;
+
+    var w = 0, h = 0, dpr = 1, rafId = 0;
+    var clock = 0, last = 0;
+    var flight = null, trail = [], tracers = [];
+    var nextLaunch = 0.6;
+
+    function rand(a, b){ return a + Math.random() * (b - a); }
+
+    function resize(){
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      w = root.clientWidth || 1;
+      h = root.clientHeight || 1;
+      canvas.width = Math.max(1, Math.round(w * dpr));
+      canvas.height = Math.max(1, Math.round(h * dpr));
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    // Dim whatever crosses the headline zone, ramping smoothly at the edges.
+    function zoneDamp(nx, ny){
+      var cl = function(v){ return Math.max(0, Math.min(1, v)); };
+      var inX = cl((0.62 - nx) / 0.14);
+      var inY = cl((ny - 0.08) / 0.10) * cl((0.82 - ny) / 0.10);
+      return 1 - 0.58 * inX * inY;
+    }
+
+    function makeFlight(startClock){
+      return {
+        sx: rand(0.03, 0.16), sy: rand(0.80, 0.94),
+        ex: rand(1.03, 1.09), ey: rand(-0.08, 0.22),
+        bump: rand(0.05, 0.11),
+        dur: rand(1.2, 1.7),
+        radius: rand(11, 14),
+        spin: -rand(16, 24),
+        start: startClock
+      };
+    }
+
+    function pointAt(f, t){
+      return {
+        x: f.sx + (f.ex - f.sx) * t,
+        y: f.sy + (f.ey - f.sy) * t - f.bump * 4 * t * (1 - t)
+      };
+    }
+
+    function samplePath(f){
+      var pts = [];
+      for (var i = 0; i <= 36; i++) pts.push(pointAt(f, i / 36));
+      return pts;
+    }
+
+    function drawTracer(pts, alpha){
+      if (alpha <= 0.002) return;
+      ctx.lineCap = 'round';
+      ctx.lineWidth = 1.4;
+      for (var i = 1; i < pts.length; i++){
+        var a = pts[i - 1], b = pts[i];
+        var mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2;
+        ctx.strokeStyle = 'rgba(' + ACCENT + ',' + (alpha * zoneDamp(mx, my)).toFixed(4) + ')';
+        ctx.beginPath();
+        ctx.moveTo(a.x * w, a.y * h);
+        ctx.lineTo(b.x * w, b.y * h);
+        ctx.stroke();
+      }
+    }
+
+    function drawTrail(){
+      ctx.lineCap = 'round';
+      for (var i = 1; i < trail.length; i++){
+        var a = trail[i - 1], b = trail[i];
+        var k = 1 - (clock - b.t) / TRAIL_LIFE;
+        if (k <= 0) continue;
+        var alpha = 0.55 * k * zoneDamp(b.x, b.y);
+        ctx.strokeStyle = 'rgba(' + (k > 0.7 ? ACCENT2 : ACCENT) + ',' + alpha.toFixed(4) + ')';
+        ctx.lineWidth = 1 + 4.5 * k;
+        ctx.beginPath();
+        ctx.moveTo(a.x * w, a.y * h);
+        ctx.lineTo(b.x * w, b.y * h);
+        ctx.stroke();
+      }
+    }
+
+    function drawBall(nx, ny, r, rot){
+      var x = nx * w, y = ny * h;
+      var glow = ctx.createRadialGradient(x, y, r * 0.4, x, y, r * 3.6);
+      glow.addColorStop(0, 'rgba(' + ACCENT + ',0.30)');
+      glow.addColorStop(1, 'rgba(' + ACCENT + ',0)');
+      ctx.fillStyle = glow;
+      ctx.beginPath();
+      ctx.arc(x, y, r * 3.6, 0, Math.PI * 2);
+      ctx.fill();
+
+      var body = ctx.createRadialGradient(x - r * 0.35, y - r * 0.35, r * 0.2, x, y, r * 1.05);
+      body.addColorStop(0, '#FDFDFE');
+      body.addColorStop(1, '#C9D3DC');
+      ctx.fillStyle = body;
+      ctx.beginPath();
+      ctx.arc(x, y, r, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(x, y, r * 0.96, 0, Math.PI * 2);
+      ctx.clip();
+      ctx.translate(x, y);
+      ctx.rotate(rot);
+      ctx.strokeStyle = 'rgba(' + STITCH + ',0.55)';
+      ctx.lineWidth = Math.max(1, r * 0.16);
+      ctx.beginPath();
+      ctx.arc(-r * 1.55, 0, r * 1.32, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(r * 1.55, 0, r * 1.32, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    function frame(now){
+      rafId = requestAnimationFrame(frame);
+      var dt = Math.min((now - last) / 1000, 0.1);
+      last = now;
+      clock += dt;
+
+      ctx.clearRect(0, 0, w, h);
+
+      for (var i = tracers.length - 1; i >= 0; i--){
+        var alpha = 0.20 * (1 - (clock - tracers[i].born) / TRACER_FADE);
+        if (alpha <= 0){ tracers.splice(i, 1); continue; }
+        drawTracer(tracers[i].pts, alpha);
+      }
+
+      while (trail.length && clock - trail[0].t > TRAIL_LIFE) trail.shift();
+      drawTrail();
+
+      if (flight){
+        var t = (clock - flight.start) / flight.dur;
+        if (t >= 1){
+          tracers.push({ pts: samplePath(flight), born: clock });
+          if (tracers.length > MAX_TRACERS) tracers.shift();
+          flight = null;
+          nextLaunch = clock + rand(2.2, 3.6);
+        } else {
+          var p = pointAt(flight, t);
+          trail.push({ x: p.x, y: p.y, t: clock });
+          drawBall(p.x, p.y, flight.radius, flight.spin * (clock - flight.start));
+        }
+      } else if (clock >= nextLaunch){
+        flight = makeFlight(clock);
+      }
+    }
+
+    var STATIC_ARCS = [
+      { f: { sx: 0.06, sy: 0.90, ex: 1.06, ey: 0.04, bump: 0.09 }, a: 0.16 },
+      { f: { sx: 0.12, sy: 0.86, ex: 1.05, ey: 0.20, bump: 0.06 }, a: 0.11 },
+      { f: { sx: 0.04, sy: 0.82, ex: 1.07, ey: -0.04, bump: 0.11 }, a: 0.08 }
+    ];
+
+    function staticFrame(){
+      resize();
+      ctx.clearRect(0, 0, w, h);
+      for (var i = 0; i < STATIC_ARCS.length; i++){
+        drawTracer(samplePath(STATIC_ARCS[i].f), STATIC_ARCS[i].a);
+      }
+      drawBall(0.84, 0.62, 12, -0.5);
+    }
+
+    var mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    function stop(){
+      if (rafId){ cancelAnimationFrame(rafId); rafId = 0; }
+    }
+
+    function startAnim(){
+      stop();
+      if (mq.matches){ staticFrame(); return; }
+      resize();
+      last = performance.now();
+      rafId = requestAnimationFrame(frame);
+    }
+
+    function onResize(){
+      if (mq.matches){ staticFrame(); } else { resize(); }
+    }
+
+    tracers.push({ pts: samplePath(makeFlight(0)), born: -7 });
+    tracers.push({ pts: samplePath(makeFlight(0)), born: -12 });
+
+    window.addEventListener('resize', onResize);
+    if (typeof mq.addEventListener === 'function'){ mq.addEventListener('change', startAnim); }
+    else if (typeof mq.addListener === 'function'){ mq.addListener(startAnim); }
+
+    startAnim();
+  })();
 
   /* ---------- footer year ---------- */
   document.getElementById('year').textContent = new Date().getFullYear();
