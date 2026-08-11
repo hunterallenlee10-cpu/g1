@@ -1100,39 +1100,68 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   }
 
   /* ---------- testimonial carousel ---------- */
+  /* Seamless 360° loop: the real card set is cloned once on each side,
+     the track starts on the middle set, and once scrolling settles it is
+     silently re-centered by exactly one set width — an invisible jump,
+     so next/prev/swipe wrap around forever in both directions. */
   var track = document.getElementById('carTrack');
-  var cards = [].slice.call(track.children);
-  var current = 0;
+  var realCards = [].slice.call(track.children);
+  var N = realCards.length;
 
-  function goTo(i){
-    i = (i + cards.length) % cards.length;
-    track.scrollTo({left: cards[i].offsetLeft - cards[0].offsetLeft, behavior: reduced ? 'auto' : 'smooth'});
-  }
-  function syncCurrent(){
-    var x = track.scrollLeft, best = 0, bd = Infinity;
-    cards.forEach(function(c, i){
-      var d = Math.abs((c.offsetLeft - cards[0].offsetLeft) - x);
-      if (d < bd) { bd = d; best = i; }
+  function makeClones(){
+    var frag = document.createDocumentFragment();
+    realCards.forEach(function(c){
+      var k = c.cloneNode(true);
+      k.setAttribute('aria-hidden', 'true');
+      k.removeAttribute('aria-label');
+      frag.appendChild(k);
     });
-    current = best;
+    return frag;
   }
+  track.insertBefore(makeClones(), track.firstChild);
+  track.appendChild(makeClones());
+  var cards = [].slice.call(track.children);
+
+  /* fractional positions relative to the first card in the strip */
+  function pos(i){ return cards[i].getBoundingClientRect().left - cards[0].getBoundingClientRect().left; }
+  function step(){ return pos(1); }
+  function period(){ return pos(N); }
+
+  track.scrollLeft = period();
+
+  var target = null;
+  function goTo(i){
+    target = i;
+    track.scrollTo({left: pos(i), behavior: reduced ? 'auto' : 'smooth'});
+  }
+  function move(dir){
+    var from = target !== null ? target : Math.round(track.scrollLeft / step());
+    goTo(from + dir);
+  }
+
   var st;
   track.addEventListener('scroll', function(){
-    clearTimeout(st); st = setTimeout(syncCurrent, 80);
+    clearTimeout(st);
+    st = setTimeout(function(){
+      target = null;
+      var p = period(), x = track.scrollLeft;
+      if (x < p * 0.5) track.scrollLeft = x + p;
+      else if (x >= p * 1.5) track.scrollLeft = x - p;
+    }, 100);
   }, {passive:true});
 
-  document.getElementById('carPrev').addEventListener('click', function(){ goTo(current - 1); });
-  document.getElementById('carNext').addEventListener('click', function(){ goTo(current + 1); });
+  document.getElementById('carPrev').addEventListener('click', function(){ move(-1); });
+  document.getElementById('carNext').addEventListener('click', function(){ move(1); });
   track.addEventListener('keydown', function(e){
-    if (e.key === 'ArrowLeft') { e.preventDefault(); goTo(current - 1); }
-    if (e.key === 'ArrowRight') { e.preventDefault(); goTo(current + 1); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); move(-1); }
+    if (e.key === 'ArrowRight') { e.preventDefault(); move(1); }
   });
 
   /* gentle auto-advance; pauses on interaction, off with reduced motion */
   var auto = null;
   function startAuto(){
     if (reduced || auto) return;
-    auto = setInterval(function(){ goTo(current + 1); }, 6000);
+    auto = setInterval(function(){ move(1); }, 6000);
   }
   function stopAuto(){ clearInterval(auto); auto = null; }
   startAuto();
