@@ -10,7 +10,7 @@ Copy, personalize the bracketed parts, and send. Keep it in your own voice — t
 >
 > And here's the crazy part — it comes with a full 90-day money-back guarantee. Train for 3 months, and if it's not everything they say it is, you get every dollar back. There's literally zero risk. Nobody in this space does that.
 >
-> It starts September 1st and they're only taking 30 athletes, so I wanted to make sure you had access to it before it goes public. Would this be something [athlete's name] would be into?
+> It starts September 1st and they're only taking 30 athletes, so I wanted to make sure you had access to it before it goes public. Would this be something [athlete's name] would be into? If so, the application takes like 2 minutes: https://docs.google.com/forms/d/e/1FAIpQLSdeyjlA2muSTRYhJoO3lYVvq23RRxIVj0zprw4ZBJGJvbbYCA/viewform
 >
 > Also — if you know any other families with serious ballplayers, send them my way. I'd rather these spots go to people we know. 🙏
 
@@ -36,7 +36,7 @@ Copy, personalize the bracketed parts, and send. Keep it in your own voice — t
 >
 > Two things:
 >
-> 1. **Is this something [athlete's name] would want in on?** Happy to tell you everything about my experience with it.
+> 1. **Is this something [athlete's name] would want in on?** If so, the application only takes a couple minutes — here's the link: https://docs.google.com/forms/d/e/1FAIpQLSdeyjlA2muSTRYhJoO3lYVvq23RRxIVj0zprw4ZBJGJvbbYCA/viewform — and I'm happy to tell you everything about my experience with it.
 > 2. **Do you know anyone else who should hear about this?** Teammates, travel ball families, anyone serious about hitting — I'd love to get them access too before the spots fill up. Just shoot me their info or forward this along.
 >
 > Call or text me anytime — [your number]. Would love to catch up regardless!
@@ -50,7 +50,7 @@ Copy, personalize the bracketed parts, and send. Keep it in your own voice — t
 > Love it — thank you! Whatever's easiest for you:
 >
 > - Shoot me their name and number/email and I'll reach out and let them know you sent me, or
-> - Just forward them my message / the link and loop me in.
+> - Just forward them my message with the application link (https://docs.google.com/forms/d/e/1FAIpQLSdeyjlA2muSTRYhJoO3lYVvq23RRxIVj0zprw4ZBJGJvbbYCA/viewform) and loop me in.
 >
 > Either way I'll make sure they get access before it goes public. And seriously — with the 90-day money-back guarantee there's nothing to lose, so don't be shy about sending people my way. Appreciate you, [Name]!
 
@@ -64,7 +64,9 @@ Copy, personalize the bracketed parts, and send. Keep it in your own voice — t
 >
 > The best part is it's backed by a full 90-day money-back guarantee — three months in, and if it's not everything they say, you get every dollar back. Zero risk.
 >
-> They're only taking 30 athletes and since [Friend's name] sent you, I can get you access before it goes public. Want me to send over the details, or feel free to call/text me at [your number]. You can also reach the G1 team at Info@g1-baseball.com.
+> They're only taking 30 athletes and since [Friend's name] sent you, I can get you access before it goes public. If you want in, the application takes a couple minutes: https://docs.google.com/forms/d/e/1FAIpQLSdeyjlA2muSTRYhJoO3lYVvq23RRxIVj0zprw4ZBJGJvbbYCA/viewform
+>
+> Happy to answer any questions — call/text me at [your number], or you can reach the G1 team at Info@g1-baseball.com.
 
 ---
 
@@ -74,5 +76,6 @@ Copy, personalize the bracketed parts, and send. Keep it in your own voice — t
 - **Lead with your own experience.** "This is what I use and it's working for me" is the most convincing thing you can say — way stronger than any feature list.
 - **Lean on the guarantee.** When someone hesitates, the 90-day money-back guarantee is your answer: "There's literally zero risk — if it doesn't deliver in 3 months, you get everything back."
 - **Ask both questions separately if needed.** If someone says no for their own kid, the referral ask still works: "All good — know anyone who might be a fit? Zero risk for them with the guarantee."
+- **Make the link the next step.** Every message ends with the application form so an interested friend can act immediately instead of "getting back to you."
 - **Follow up once.** If you don't hear back in 3–4 days, one short bump ("Hey, any thoughts? Spots are filling") is enough.
 - **Track it.** Keep a simple list: who you messaged, their response, and any referrals they gave, so nobody falls through the cracks.
