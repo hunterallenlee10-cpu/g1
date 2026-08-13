@@ -149,19 +149,19 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   -webkit-backdrop-filter:blur(14px);
   border-bottom:1px solid var(--line);
 }
-.hdr-in{height:100%;display:flex;align-items:center;gap:1.5rem}
+.hdr-in{height:100%;display:flex;align-items:center;gap:1rem}
 .brand{display:inline-flex;align-items:center;gap:.7rem;text-decoration:none}
 .brand .mark{width:42px;height:42px;flex:none}
 .brand .bn{font-family:var(--display);font-weight:800;font-size:1.02rem;letter-spacing:.02em;line-height:1.1}
 .brand .bn small{display:block;font-family:var(--body);font-weight:600;font-size:.6rem;letter-spacing:.28em;text-transform:uppercase;color:var(--muted)}
-.nav{display:flex;align-items:center;gap:1.6rem;margin-left:auto}
+.nav{display:flex;align-items:center;gap:1.05rem;margin-left:auto}
 .nav a{
-  text-decoration:none;font-weight:600;font-size:.92rem;color:var(--muted);
+  text-decoration:none;font-weight:600;font-size:.92rem;color:var(--muted);white-space:nowrap;
   padding:.35rem 0;border-bottom:2px solid transparent;
   transition:color .15s ease,border-color .15s ease;
 }
 .nav a:hover{color:var(--text);border-color:var(--accent)}
-.hdr .btn{margin-left:.4rem}
+.hdr .btn{margin-left:.25rem;padding:.72rem 1rem;white-space:nowrap}
 .burger{display:none;margin-left:auto;width:44px;height:44px;border:1px solid var(--line-2);border-radius:10px;position:relative}
 .burger span{position:absolute;left:11px;right:11px;height:2px;background:var(--text);border-radius:2px;transition:transform .2s ease,opacity .2s ease}
 .burger span:nth-child(1){top:15px}
@@ -169,8 +169,8 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .burger span:nth-child(3){top:27px}
 .m-nav{display:none}
 
-@media (max-width:900px){
-  .nav,.hdr .btn-primary{display:none}
+@media (max-width:1100px){
+  .nav,.hdr-in > .btn{display:none}
   .burger{display:block}
   .m-nav{
     display:none;position:absolute;top:var(--hdr);left:0;right:0;
@@ -179,7 +179,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   }
   .m-nav.open{display:block}
   .m-nav a{display:block;text-decoration:none;font-weight:600;padding:.7rem 0;border-bottom:1px solid var(--line);color:var(--text)}
-  .m-nav .btn{margin-top:1rem;width:100%}
+  .m-nav .btn{display:flex;margin-top:1rem;width:100%}
   body.nav-open .burger span:nth-child(1){transform:translateY(6px) rotate(45deg)}
   body.nav-open .burger span:nth-child(2){opacity:0}
   body.nav-open .burger span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
@@ -554,6 +554,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
       <a href="#faq">FAQ</a>
     </nav>
     <a class="btn btn-primary" href="#apply">Apply Now</a>
+    <a class="btn btn-ghost" href="partners.html">Official Partners</a>
     <button class="burger" id="burger" aria-expanded="false" aria-controls="mnav" aria-label="Open menu">
       <span></span><span></span><span></span>
     </button>
@@ -565,6 +566,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
     <a href="#testimonials">Results</a>
     <a href="#faq">FAQ</a>
     <a class="btn btn-primary" href="#apply">Apply Now</a>
+    <a class="btn btn-ghost" href="partners.html">Official Partners</a>
   </nav>
 </header>
 
@@ -1194,6 +1196,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
         <li><a href="#included">What&rsquo;s Included</a></li>
         <li><a href="#guarantee">Guarantee</a></li>
         <li><a href="#testimonials">Results</a></li>
+        <li><a href="partners.html">Official Partners</a></li>
         <li><a href="#apply">Apply</a></li>
       </ul>
     </div>
