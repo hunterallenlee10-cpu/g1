@@ -457,6 +457,140 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .cta-band .lede{margin:1rem auto 0;color:var(--muted);max-width:52ch}
 .cta-band .cta-row{justify-content:center}
 
+/* ---------- cta: looping "bat hits ball" sequence ---------- */
+/* Layer sits above the seam art and below the text. Transform/opacity only —
+   nothing here can move the layout. Inert until the observer adds .sw-run,
+   which it does only while the section is on screen. */
+#cta .wrap{position:relative;z-index:2}
+#cta .swing{
+  position:absolute;left:0;right:0;bottom:0;
+  aspect-ratio:1200/400;
+  z-index:1;
+  overflow:hidden;
+  pointer-events:none;
+}
+#cta .swing svg{display:block;width:100%;height:100%}
+
+/* palette: seam-art slate only, plus a whisper of accent inside the ring */
+#cta .sw-bat-body{fill:var(--dim)}
+#cta .sw-bat-edge{fill:none;stroke:var(--muted);stroke-width:1.6;stroke-linecap:round;opacity:.4}
+#cta .sw-swoosh{fill:none;stroke:var(--muted);stroke-width:2;stroke-linecap:round}
+#cta .sw-ball-body{fill:var(--muted);stroke:var(--text);stroke-opacity:.3;stroke-width:1}
+#cta .sw-seam{fill:none;stroke:var(--panel);stroke-opacity:.6;stroke-width:1.8;stroke-linecap:round}
+#cta .sw-trail{fill:url(#swTrailGrad)}
+#cta .sw-trail-0{stop-color:var(--muted);stop-opacity:0}
+#cta .sw-trail-1{stop-color:var(--muted);stop-opacity:.85}
+#cta .sw-ring{fill:none;stroke:var(--accent);stroke-width:2}
+#cta .sw-spark{stroke:var(--muted);stroke-width:2;stroke-linecap:round}
+
+/* rest state — invisible, bat parked in the cocked position */
+#cta .sw-bat,#cta .sw-swoosh,#cta .sw-ball-x,#cta .sw-trail,#cta .sw-ring,#cta .sw-sparks{opacity:0}
+#cta .sw-bat{transform-box:view-box;transform-origin:140px 384px;transform:rotate(-128deg)}
+#cta .sw-ring,#cta .sw-sparks{transform-box:view-box;transform-origin:328px 334px}
+#cta .sw-ball-spin{transform-box:fill-box;transform-origin:center}
+#cta .sw-trail{transform-box:fill-box;transform-origin:right center}
+#cta .sw-ball-scale{transform-origin:0 0}
+
+/* One 7s cycle, looping while the section is on screen: bat fades in,
+   waggles and loads, whips through the zone, contact at 1.30s, follows
+   through and settles, then fades out by 2.70s. Ball flies 1.4s from
+   contact. The last ~4.3s of the cycle are calm before it comes round
+   again. Every element shares the 7s timeline so the loop stays in sync
+   (a positive animation-delay would only apply to the first pass). */
+#cta .sw-run .sw-bat{animation:sw-bat 7s infinite;will-change:transform,opacity}
+#cta .sw-run .sw-swoosh{animation:sw-swoosh 7s linear infinite}
+#cta .sw-run .sw-swoosh-1{animation-delay:-.10s}   /* negative delays stagger */
+#cta .sw-run .sw-swoosh-2{animation-delay:-.05s}   /* and survive every loop */
+#cta .sw-run .sw-ring{animation:sw-ring 7s infinite}
+#cta .sw-run .sw-sparks{animation:sw-sparks 7s infinite}
+#cta .sw-run .sw-ball-x{animation:sw-ball-x 7s linear infinite;will-change:transform,opacity}
+#cta .sw-run .sw-ball-y{animation:sw-ball-y 7s infinite;will-change:transform}
+#cta .sw-run .sw-ball-spin{animation:sw-spin 7s linear infinite}
+#cta .sw-run .sw-trail{animation:sw-trail 7s infinite}
+
+/* 4.29% = 0.30s   15% = 1.05s (loaded)   18.57% = 1.30s (contact)
+   24.29% = 1.70s (settled)   38.57% = 2.70s (gone) */
+@keyframes sw-bat{
+  0%     {opacity:0;   transform:rotate(-128deg);   animation-timing-function:ease-out}
+  4.29%  {opacity:.58; transform:rotate(-128deg);   animation-timing-function:ease-in-out}
+  7.86%  {opacity:.58; transform:rotate(-132deg);   animation-timing-function:ease-in-out}
+  10.71% {opacity:.58; transform:rotate(-129.5deg); animation-timing-function:ease-in-out}
+  15%    {opacity:.58; transform:rotate(-136deg);   animation-timing-function:cubic-bezier(.7,0,.9,.4)}
+  18.57% {opacity:.62; transform:rotate(-15deg);    animation-timing-function:cubic-bezier(.12,.85,.28,1)}
+  21%    {opacity:.55; transform:rotate(58deg);     animation-timing-function:ease-in-out}
+  24.29% {opacity:.5;  transform:rotate(46deg);     animation-timing-function:linear}
+  38.57% {opacity:0;   transform:rotate(43deg)}
+  40%    {opacity:0;   transform:rotate(-128deg)}   /* reset unseen */
+  100%   {opacity:0;   transform:rotate(-128deg)}
+}
+@keyframes sw-swoosh{
+  0%,16.43% {opacity:0}
+  17.4%     {opacity:.3}
+  20.71%    {opacity:0}
+  100%      {opacity:0}
+}
+@keyframes sw-ring{
+  0%,18.5% {opacity:0;  transform:scale(.3)}
+  18.6%    {opacity:.5; animation-timing-function:cubic-bezier(.15,.7,.3,1)}
+  23.43%   {opacity:0;  transform:scale(2.2)}
+  100%     {opacity:0}
+}
+@keyframes sw-sparks{
+  0%,18.5% {opacity:0;   transform:scale(.35)}
+  18.6%    {opacity:.55; animation-timing-function:cubic-bezier(.2,.8,.4,1)}
+  22.86%   {opacity:0;   transform:scale(1.4)}
+  100%     {opacity:0}
+}
+@keyframes sw-ball-x{
+  0%,18.57% {opacity:0;  transform:translateX(0)}
+  19.6%     {opacity:.8}
+  35.5%     {opacity:.8}
+  38.57%    {opacity:0;  transform:translateX(930px)}
+  38.6%     {transform:translateX(0)}          /* reset unseen */
+  100%      {opacity:0;  transform:translateX(0)}
+}
+/* launch ~22deg, decelerating to the apex, then easing over the top */
+@keyframes sw-ball-y{
+  0%        {transform:translateY(0)}
+  18.57%    {transform:translateY(0);      animation-timing-function:cubic-bezier(.3,.55,.45,1)}
+  31.37%    {transform:translateY(-130px); animation-timing-function:cubic-bezier(.5,0,.8,.6)}
+  38.57%    {transform:translateY(-112px)}
+  38.6%     {transform:translateY(0)}
+  100%      {transform:translateY(0)}
+}
+@keyframes sw-spin{
+  0%,18.57% {transform:rotate(0)}
+  38.57%    {transform:rotate(920deg)}
+  100%      {transform:rotate(920deg)}
+}
+@keyframes sw-trail{
+  0%,18.57% {opacity:0;   transform:scaleX(.15)}
+  20.6%     {opacity:.55; transform:scaleX(1)}
+  31.4%     {opacity:.4;  transform:scaleX(1.4)}
+  38.57%    {opacity:0;   transform:scaleX(.85)}
+  100%      {opacity:0;   transform:scaleX(.15)}
+}
+
+/* no observer / no JS: hold a static "just past contact" pose */
+#cta .swing.sw-static .sw-bat{opacity:.4;transform:rotate(-24deg)}
+#cta .swing.sw-static .sw-ball-x{opacity:.45}
+#cta .swing.sw-static .sw-ball-y{transform:translate(700px,-120px)}
+#cta .swing.sw-static .sw-trail{opacity:.3;transform:scaleX(1.15)}
+
+/* phones: the bat crowds the buttons, so run ball flight only */
+@media (max-width:640px){
+  #cta .sw-bat,#cta .sw-swoosh,#cta .sw-ring,#cta .sw-sparks{display:none}
+  #cta .sw-ball-scale{transform:scale(2.4)}
+}
+
+@media (prefers-reduced-motion:reduce){
+  #cta .swing *{animation:none !important;will-change:auto !important}
+  #cta .swing .sw-bat{opacity:.4;transform:rotate(-24deg)}
+  #cta .swing .sw-ball-x{opacity:.45}
+  #cta .swing .sw-ball-y{transform:translate(700px,-120px)}
+  #cta .swing .sw-trail{opacity:.3;transform:scaleX(1.15)}
+}
+
 /* ---------- request form ---------- */
 .req-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(2rem,5vw,4rem);margin-top:2.6rem;align-items:start}
 @media (max-width:900px){.req-grid{grid-template-columns:1fr}}
@@ -1092,6 +1226,71 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 <!-- ================= CTA band ================= -->
 <section class="sect cta-band" id="cta">
   <svg class="seam" viewBox="0 0 400 400" aria-hidden="true"><use href="#seam"/></svg>
+  <!-- one-shot bat-hits-ball sequence: above the seam art, below the text -->
+  <div class="swing" aria-hidden="true">
+    <svg viewBox="0 0 1200 400" preserveAspectRatio="xMidYMax meet" focusable="false">
+      <defs>
+        <linearGradient id="swTrailGrad" x1="0" y1="0" x2="1" y2="0">
+          <stop class="sw-trail-0" offset="0"/>
+          <stop class="sw-trail-1" offset="1"/>
+        </linearGradient>
+      </defs>
+
+      <!-- swoosh trails: three arcs struck about the knob at r=186/153/121 -->
+      <path class="sw-swoosh sw-swoosh-1" d="M61.4 215.4 A186 186 0 0 1 292.4 277.3"/>
+      <path class="sw-swoosh sw-swoosh-2" d="M87.7 240.2 A153 153 0 0 1 272.5 307.5"/>
+      <path class="sw-swoosh sw-swoosh-3" d="M108.7 267.1 A121 121 0 0 1 249.7 332.9"/>
+
+      <!-- bat: knob, tapered handle, swell into the barrel, rounded end cap.
+           Rotates about the knob at (140,384); the barrel tip reaches 195 out. -->
+      <g class="sw-bat">
+        <g transform="translate(140 384)">
+          <rect class="sw-bat-body" x="-3.9" y="-5.5" width="6.2" height="11" rx="2.5"/>
+          <path class="sw-bat-body" d="M1.6 -2.65
+            C32 -2.8 55 -3.1 74 -3.44
+            C101 -4.4 133 -6.7 160 -9
+            C170 -9.5 178 -9.66 186 -9.66
+            A9.66 9.66 0 0 1 186 9.66
+            C178 9.66 170 9.5 160 9
+            C133 6.7 101 4.4 74 3.44
+            C55 3.1 32 2.8 1.6 2.65 Z"/>
+          <path class="sw-bat-edge" d="M6.2 -1.86
+            C32 -2 55 -2.25 74 -2.65
+            C101 -3.6 133 -5.95 160 -8.2
+            C168 -8.65 176 -8.8 182.6 -8.8"/>
+        </g>
+      </g>
+
+      <!-- contact burst, struck at the barrel's contact point -->
+      <circle class="sw-ring" cx="328" cy="334" r="10"/>
+      <g class="sw-sparks">
+        <line class="sw-spark" x1="339" y1="334" x2="362" y2="334"/>
+        <line class="sw-spark" x1="335.8" y1="326.2" x2="352.1" y2="317.9"/>
+        <line class="sw-spark" x1="328" y1="323" x2="328" y2="300"/>
+        <line class="sw-spark" x1="320.2" y1="326.2" x2="303.9" y2="317.9"/>
+        <line class="sw-spark" x1="317" y1="334" x2="294" y2="334"/>
+        <line class="sw-spark" x1="335.8" y1="341.8" x2="352.1" y2="358.1"/>
+      </g>
+
+      <!-- ball: linear X, eased-arc Y, continuous spin, tapered trail -->
+      <g class="sw-ball-x">
+        <g transform="translate(330 332)">
+          <g class="sw-ball-y">
+            <g class="sw-ball-scale">
+            <g transform="rotate(-14)">
+              <path class="sw-trail" d="M0 -5 L-84 -1.4 L-84 1.4 L0 5 Z"/>
+            </g>
+            <g class="sw-ball-spin">
+              <circle class="sw-ball-body" r="10"/>
+              <path class="sw-seam" d="M-6.2 -7.8 A12.2 12.2 0 0 0 -6.2 7.8"/>
+              <path class="sw-seam" d="M6.2 -7.8 A12.2 12.2 0 0 1 6.2 7.8"/>
+            </g>
+            </g>
+          </g>
+        </g>
+      </g>
+    </svg>
+  </div>
   <div class="wrap">
     <span class="logo mark rv" role="img" aria-label="G1 monogram"></span>
     <h2 class="rv d1">30 spots. September 1st. <span class="hl">Zero risk.</span></h2>
@@ -1338,6 +1537,31 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
       + '&body=' + encodeURIComponent('Please add ' + em.value.trim() + ' to the G1 mailing list. Thanks!');
     newsDone.classList.add('show');
   });
+
+
+  /* ---------- cta "bat hits ball": loops while the section is on screen ---------- */
+  (function(){
+    var cta = document.getElementById('cta');
+    var swing = cta && cta.querySelector('.swing');
+    if (!swing) return;
+
+    /* reduced motion and no-observer both hold the static pose instead */
+    if (reduced || !('IntersectionObserver' in window)) {
+      swing.classList.add('sw-static');
+      return;
+    }
+
+    /* The class carries every animation and the will-change hints, so
+       dropping it off screen stops the loop and releases the layers.
+       Re-entering restarts the cycle from the top, so the swing is the
+       first thing you see rather than mid-rest. */
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        swing.classList.toggle('sw-run', en.isIntersecting && en.intersectionRatio >= .25);
+      });
+    }, {threshold:[0, .25]});
+    io.observe(cta);
+  })();
 
   /* ---------- "Line Drive" hero background: flying baseball on canvas ---------- */
   (function(){
