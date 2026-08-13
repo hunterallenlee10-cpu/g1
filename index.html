@@ -174,9 +174,16 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   .burger{display:block}
   .m-nav{
     display:none;position:absolute;top:var(--hdr);left:0;right:0;
-    background:rgba(9,10,13,.97);border-bottom:1px solid var(--line);
+    background:#090A0D;border-bottom:1px solid var(--line);
     padding:1rem clamp(18px,4vw,40px) 1.4rem;
+    /* in landscape the panel is taller than the viewport, so bound it and
+       let it scroll rather than stranding the buttons below the fold */
+    max-height:calc(100vh - var(--hdr));
+    max-height:calc(100dvh - var(--hdr));
+    overflow-y:auto;
+    overscroll-behavior:contain;
   }
+  body.nav-open{overflow:hidden}
   .m-nav.open{display:block}
   .m-nav a{display:block;text-decoration:none;font-weight:600;padding:.7rem 0;border-bottom:1px solid var(--line);color:var(--text)}
   .m-nav .btn{display:flex;margin-top:1rem;width:100%}
@@ -1475,19 +1482,36 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   /* ---------- mobile nav ---------- */
   var burger = document.getElementById('burger');
   var mnav = document.getElementById('mnav');
-  burger.addEventListener('click', function(){
-    var open = mnav.classList.toggle('open');
+
+  function navIsOpen(){ return mnav.classList.contains('open'); }
+  function setNav(open){
+    if (open === navIsOpen()) return;
+    mnav.classList.toggle('open', open);
     document.body.classList.toggle('nav-open', open);
     burger.setAttribute('aria-expanded', open ? 'true' : 'false');
     burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
-  });
+    /* locking the body hides the scrollbar; pad by its width so nothing shifts */
+    var gutter = window.innerWidth - document.documentElement.clientWidth;
+    document.body.style.paddingRight = open && gutter > 0 ? gutter + 'px' : '';
+  }
+
+  burger.addEventListener('click', function(){ setNav(!navIsOpen()); });
   mnav.addEventListener('click', function(e){
-    if (e.target.closest('a')) {
-      mnav.classList.remove('open');
-      document.body.classList.remove('nav-open');
-      burger.setAttribute('aria-expanded','false');
-    }
+    if (e.target.closest('a')) setNav(false);
   });
+  /* tapping the page behind the panel closes it */
+  document.addEventListener('click', function(e){
+    if (navIsOpen() && !mnav.contains(e.target) && !burger.contains(e.target)) setNav(false);
+  });
+  document.addEventListener('keydown', function(e){
+    if (navIsOpen() && (e.key === 'Escape' || e.key === 'Esc')) { setNav(false); burger.focus(); }
+  });
+  /* rotating or resizing to a width where the panel is hidden would otherwise
+     leave it open underneath, and the body still locked */
+  var wideMq = window.matchMedia('(min-width:1101px)');
+  var onWide = function(e){ if (e.matches) setNav(false); };
+  if (wideMq.addEventListener) wideMq.addEventListener('change', onWide);
+  else if (wideMq.addListener) wideMq.addListener(onWide);
 
   /* ---------- reveal on scroll ---------- */
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
