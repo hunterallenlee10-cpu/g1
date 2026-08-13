@@ -1317,9 +1317,9 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
         sx: rand(0.03, 0.16), sy: rand(0.80, 0.94),
         ex: rand(1.03, 1.09), ey: rand(-0.08, 0.22),
         bump: rand(0.05, 0.11),
-        dur: rand(1.2, 1.7),
-        radius: rand(11, 14),
-        spin: -rand(16, 24),
+        dur: rand(2.2, 3.0),
+        radius: rand(15, 19),
+        spin: -rand(10, 15),
         start: startClock
       };
     }
@@ -1449,7 +1449,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
       for (var i = 0; i < STATIC_ARCS.length; i++){
         drawTracer(samplePath(STATIC_ARCS[i].f), STATIC_ARCS[i].a);
       }
-      drawBall(0.84, 0.62, 12, -0.5);
+      drawBall(0.84, 0.62, 16, -0.5);
     }
 
     var mq = window.matchMedia('(prefers-reduced-motion: reduce)');
