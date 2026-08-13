@@ -475,11 +475,14 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 #cta .sw-bat-body{fill:var(--dim)}
 #cta .sw-bat-edge{fill:none;stroke:var(--muted);stroke-width:1.6;stroke-linecap:round;opacity:.4}
 #cta .sw-swoosh{fill:none;stroke:var(--muted);stroke-width:2;stroke-linecap:round}
-#cta .sw-ball-body{fill:var(--muted);stroke:var(--text);stroke-opacity:.3;stroke-width:1}
-#cta .sw-seam{fill:none;stroke:var(--panel);stroke-opacity:.6;stroke-width:1.8;stroke-linecap:round}
+#cta .sw-ball-body{fill:url(#swBallBody)}
+#cta .sw-ball-glow{fill:url(#swBallGlow)}
+#cta .sw-glow-0{stop-color:var(--accent);stop-opacity:.3}
+#cta .sw-glow-1{stop-color:var(--accent);stop-opacity:0}
+#cta .sw-seam{fill:none;stroke:rgb(192,57,43);stroke-opacity:.55;stroke-width:1.6}
 #cta .sw-trail{fill:url(#swTrailGrad)}
-#cta .sw-trail-0{stop-color:var(--muted);stop-opacity:0}
-#cta .sw-trail-1{stop-color:var(--muted);stop-opacity:.85}
+#cta .sw-trail-0{stop-color:var(--accent);stop-opacity:0}
+#cta .sw-trail-1{stop-color:var(--accent-2);stop-opacity:.75}
 #cta .sw-ring{fill:none;stroke:var(--accent);stroke-width:2}
 #cta .sw-spark{stroke:var(--muted);stroke-width:2;stroke-linecap:round}
 
@@ -1234,6 +1237,18 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
           <stop class="sw-trail-0" offset="0"/>
           <stop class="sw-trail-1" offset="1"/>
         </linearGradient>
+        <!-- same ball the hero canvas draws: lit from the upper left,
+             red stitching at 55%, accent glow out to 3.6x the radius -->
+        <radialGradient id="swBallBody" gradientUnits="userSpaceOnUse"
+                        cx="0" cy="0" r="10.5" fx="-3.5" fy="-3.5" fr="2">
+          <stop offset="0" stop-color="#FDFDFE"/>
+          <stop offset="1" stop-color="#C9D3DC"/>
+        </radialGradient>
+        <radialGradient id="swBallGlow" gradientUnits="userSpaceOnUse" cx="0" cy="0" r="36">
+          <stop class="sw-glow-0" offset="11.1%"/>
+          <stop class="sw-glow-1" offset="100%"/>
+        </radialGradient>
+        <clipPath id="swBallClip"><circle cx="0" cy="0" r="9.6"/></clipPath>
       </defs>
 
       <!-- swoosh trails: three arcs struck about the knob at r=186/153/121 -->
@@ -1280,10 +1295,13 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
             <g transform="rotate(-14)">
               <path class="sw-trail" d="M0 -5 L-84 -1.4 L-84 1.4 L0 5 Z"/>
             </g>
+            <circle class="sw-ball-glow" r="36"/>
             <g class="sw-ball-spin">
               <circle class="sw-ball-body" r="10"/>
-              <path class="sw-seam" d="M-6.2 -7.8 A12.2 12.2 0 0 0 -6.2 7.8"/>
-              <path class="sw-seam" d="M6.2 -7.8 A12.2 12.2 0 0 1 6.2 7.8"/>
+              <g clip-path="url(#swBallClip)">
+                <circle class="sw-seam" cx="-15.5" cy="0" r="13.2"/>
+                <circle class="sw-seam" cx="15.5" cy="0" r="13.2"/>
+              </g>
             </g>
             </g>
           </g>
