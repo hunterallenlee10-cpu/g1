@@ -316,6 +316,16 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .apply-steps{margin-top:1.5rem;display:grid;gap:.65rem;text-align:left}
 .apply-steps li{display:flex;gap:.7rem;align-items:flex-start;font-size:.93rem;color:var(--muted)}
 .apply-steps .ck{flex:none;width:18px;height:18px;margin-top:.18rem;color:var(--accent)}
+.apply-note{
+  display:flex;gap:.7rem;align-items:flex-start;text-align:left;
+  margin-top:1.5rem;padding:.85rem 1rem;
+  background:var(--accent-soft);
+  border:1px solid rgba(51,161,231,.35);
+  border-radius:10px;
+}
+.apply-note .icn{flex:none;width:18px;height:18px;margin-top:.12rem;color:var(--accent)}
+.apply-note p{margin:0;font-size:.9rem;color:var(--muted)}
+.apply-note strong{color:var(--text);font-weight:700}
 
 /* ---------- about ---------- */
 .about-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(2rem,5vw,4.5rem);align-items:center}
@@ -1383,6 +1393,12 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
             <span>Claim one of the 30 spots and start training every day</span>
           </li>
         </ul>
+        <div class="apply-note">
+          <span class="icn" aria-hidden="true">
+            <svg viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7.2" stroke="currentColor" stroke-width="1.6"/><path d="M9 5.2v4.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="9" cy="12.6" r="1" fill="currentColor"/></svg>
+          </span>
+          <p><strong>One quick thing:</strong> on the form, please tell us exactly how you heard about this offer &mdash; the person who told you, or where you saw it. It takes a second and it really helps us.</p>
+        </div>
         <a class="btn btn-primary btn-lg" href="https://docs.google.com/forms/d/e/1FAIpQLSdeyjlA2muSTRYhJoO3lYVvq23RRxIVj0zprw4ZBJGJvbbYCA/viewform" target="_blank" rel="noopener">Fill Out the Application Form
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 8h11M9 3.5 13.5 8 9 12.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
