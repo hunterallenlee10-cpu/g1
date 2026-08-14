@@ -14,7 +14,9 @@
 /* ============================================================
    G1 Baseball and Softball Training — single file.
    All CSS + JS inline. Front end only: no build step, no
-   backend. Forms hand off to the visitor's email app.
+   backend. Contact forms hand off to the visitor's email app;
+   the newsletter form posts to an n8n webhook that logs the
+   address in the G1 Newsletter Signups Google Sheet.
    ============================================================ */
 
 :root{
@@ -1430,7 +1432,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
         Subscribe
       </button>
     </form>
-    <p class="news-done" id="newsDone">Your email app should have opened with a signup note ready to send.</p>
+    <p class="news-done" id="newsDone">You're on the list! Talk soon.</p>
   </div>
 </section>
 
@@ -1587,17 +1589,36 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   document.querySelector('.car-ui').addEventListener('pointerenter', stopAuto);
   document.querySelector('.car-ui').addEventListener('pointerleave', startAuto);
 
-  /* ---------- newsletter: front end only, hands off to email ---------- */
+  /* ---------- newsletter: posts the address to the signup webhook,
+       which appends it to the G1 Newsletter Signups Google Sheet.
+       Falls back to the old mailto hand-off if the webhook is down. ---------- */
   var newsForm = document.getElementById('newsForm');
   var newsDone = document.getElementById('newsDone');
   newsForm.addEventListener('submit', function(e){
     e.preventDefault();
     var em = document.getElementById('nEmail');
     if (!em.checkValidity()) { em.focus(); return; }
-    window.location.href = 'mailto:Info@g1-baseball.com'
-      + '?subject=' + encodeURIComponent('Newsletter signup')
-      + '&body=' + encodeURIComponent('Please add ' + em.value.trim() + ' to the G1 mailing list. Thanks!');
-    newsDone.classList.add('show');
+    var email = em.value.trim();
+    var btn = newsForm.querySelector('button');
+    if (btn) btn.disabled = true;
+    fetch('https://hunterallenlee.app.n8n.cloud/webhook/g1-newsletter', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: 'email=' + encodeURIComponent(email)
+    }).then(function(res){
+      if (!res.ok) throw new Error('signup failed');
+      newsDone.textContent = "You're on the list! Talk soon.";
+      newsDone.classList.add('show');
+      newsForm.reset();
+    }).catch(function(){
+      window.location.href = 'mailto:Info@g1-baseball.com'
+        + '?subject=' + encodeURIComponent('Newsletter signup')
+        + '&body=' + encodeURIComponent('Please add ' + email + ' to the G1 mailing list. Thanks!');
+      newsDone.textContent = 'Your email app should have opened with a signup note ready to send.';
+      newsDone.classList.add('show');
+    }).then(function(){
+      if (btn) btn.disabled = false;
+    });
   });
 
 
