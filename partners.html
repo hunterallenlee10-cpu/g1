@@ -538,12 +538,14 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 }
 .pt-card:hover{transform:translateY(-4px);border-color:rgba(51,161,231,.4)}
 .pt-logo{
-  height:76px;border-radius:10px;
+  height:120px;border-radius:10px;
   background:var(--card-hi);border:1px solid var(--line);
   display:flex;align-items:center;justify-content:center;
   margin-bottom:1.2rem;overflow:hidden;
 }
-.pt-logo img{max-height:52px;width:auto;object-fit:contain}
+.pt-logo img{max-height:96px;width:auto;object-fit:contain}
+/* Logos ship on their own white background; a white box lets them blend in */
+.pt-logo:has(img){background:#FFF}
 .pt-card h3{font-size:1.12rem;font-weight:700;letter-spacing:-.01em}
 .pt-what{margin-top:.55rem;font-size:.93rem;color:var(--muted)}
 .pt-offer{display:flex;align-items:center;gap:.7rem;margin-top:1.2rem;flex-wrap:wrap}
