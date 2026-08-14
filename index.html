@@ -612,8 +612,9 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 }
 
 /* ---------- request form ---------- */
-.req-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(2rem,5vw,4rem);margin-top:2.6rem;align-items:start}
+.req-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(2rem,5vw,4rem);align-items:start}
 @media (max-width:900px){.req-grid{grid-template-columns:1fr}}
+.req-info .sect-head{margin-bottom:1.5rem}
 .req-info p{color:var(--muted);font-size:.98rem}
 .req-info .contact-lines{margin-top:1.6rem;display:grid;gap:.9rem}
 .req-info .cl{display:flex;align-items:center;gap:.85rem;font-size:.98rem}
@@ -1360,12 +1361,12 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 <!-- ================= apply ================= -->
 <section class="sect band" id="apply">
   <div class="wrap">
-    <div class="sect-head rv">
-      <p class="eyebrow">Get started</p>
-      <h2>Apply for <span class="hl">Your Spot</span></h2>
-    </div>
     <div class="req-grid">
       <div class="req-info rv d1">
+        <div class="sect-head">
+          <p class="eyebrow">Get started</p>
+          <h2>Apply for <span class="hl">Your Spot</span></h2>
+        </div>
         <p>If you are interested in training with us, fill out the application form and we will contact you within 48 business hours. Please fill this form out even if you have filled out a previous form with us.</p>
         <p style="margin-top:1rem">If you have any questions and would like to discuss the program &mdash; or anything not listed on this page &mdash; feel free to reach out directly.</p>
         <div class="contact-lines">
