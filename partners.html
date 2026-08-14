@@ -543,9 +543,9 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   display:flex;align-items:center;justify-content:center;
   margin-bottom:1.2rem;overflow:hidden;
 }
-.pt-logo img{max-height:134px;width:auto;object-fit:contain}
-/* Logos ship on their own white background; a white box lets them blend in */
-.pt-logo:has(img){background:#FFF}
+.pt-logo img{height:134px;max-width:88%;object-fit:contain}
+/* For logos that ship on their own white background; the white box lets them blend in */
+.pt-logo-light{background:#FFF}
 .pt-card h3{font-size:1.12rem;font-weight:700;letter-spacing:-.01em}
 .pt-what{margin-top:.55rem;font-size:.93rem;color:var(--muted)}
 .pt-offer{display:flex;align-items:center;gap:.7rem;margin-top:1.2rem;flex-wrap:wrap}
@@ -640,7 +640,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
     <div class="pt-grid">
 
       <article class="pt-card rv">
-        <div class="pt-logo"><img src="bopro-logo.png" alt="BOPRO logo"></div>
+        <div class="pt-logo pt-logo-light"><img src="bopro-logo.png" alt="BOPRO logo"></div>
         <h3>BOPRO</h3>
         <p class="pt-what">Bopro is an amazing hitting tool we use daily in our facility. It is one of the best tools for staying fused and maintaining good swing mechanics.</p>
         <div class="pt-offer"><span class="pt-k">Discount</span><span class="pt-v">5% off</span></div>
@@ -652,7 +652,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
       </article>
 
       <article class="pt-card rv d1">
-        <div class="pt-logo" aria-hidden="true"><span class="ph">Logo</span></div>
+        <div class="pt-logo"><img src="goat-logo.svg" alt="GOAThletic logo"></div>
         <h3>GOAThletic</h3>
         <p class="pt-what">We love Goat batting gloves as they are to us, the same thing as Bruce Bolt, but longer lasting &amp; more cost effective.</p>
         <div class="pt-offer"><span class="pt-k">Discount</span><span class="pt-v">0% off</span></div>
