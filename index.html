@@ -76,13 +76,19 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 
 /* ---------- shared type ---------- */
 .eyebrow{
-  font-size:.72rem;
+  display:inline-flex;align-items:center;gap:.55rem;
+  padding:.38rem .85rem;
+  background:var(--accent-soft);
+  border:1px solid rgba(51,161,231,.35);
+  border-radius:999px;
+  font-size:.68rem;
   font-weight:700;
-  letter-spacing:.24em;
+  letter-spacing:.22em;
   text-transform:uppercase;
   color:var(--accent);
-  margin:0 0 .9rem;
+  margin:0 0 1.1rem;
 }
+.eyebrow::before{content:"";flex:none;width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent)}
 .sect-head{max-width:60ch}
 .sect-head.center{margin-inline:auto;text-align:center}
 .sect-head h2{font-size:clamp(1.9rem,1.2rem + 2.8vw,3rem);color:var(--text)}
